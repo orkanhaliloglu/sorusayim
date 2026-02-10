@@ -29,7 +29,9 @@ export function WeeklyChart({ currentUser, refreshTrigger }: WeeklyChartProps) {
                 // Firebase'den o günün verilerini çek
                 let dayTotal = 0;
                 try {
-                    const logs = await storage.getLogs(currentUser.id, dateStr);
+                    // Kullanıcının alt kimliğini (kıvanç/rüya) kullan
+                    const userIdToFetch = currentUser.underlyingUserId || currentUser.id;
+                    const logs = await storage.getLogs(userIdToFetch, dateStr);
                     dayTotal = logs.reduce((acc, log) => acc + log.questionCount, 0);
                 } catch (error) {
                     console.error("Error fetching logs for chart:", error);

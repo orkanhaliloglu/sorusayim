@@ -80,8 +80,20 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
             {/* Header */}
             <div className="w-full max-w-5xl flex justify-between items-center mb-12">
                 <div className="flex items-center gap-4">
-                    <div className={`p-3 rounded-full bg-${currentUser.avatarColor} shadow-lg shadow-${currentUser.avatarColor}/20`}>
-                        <Shield className="w-8 h-8 text-white" />
+                    <div className="relative group">
+                        <div className={`relative p-1 rounded-full bg-${currentUser.avatarColor} shadow-lg shadow-${currentUser.avatarColor}/20 overflow-hidden w-20 h-20 flex items-center justify-center border-2 border-${currentUser.avatarColor}/50`}>
+                            {currentUser.avatarImage ? (
+                                <img src={currentUser.avatarImage} alt={currentUser.name} className="w-full h-full object-cover rounded-full" />
+                            ) : (
+                                <Shield className="w-10 h-10 text-white" />
+                            )}
+                        </div>
+                        {/* Süper Baba Etiketi (Sağ üst) - Sadece Admin için */}
+                        {currentUser.role === 'admin' && (
+                            <div className="absolute -top-2 -right-2 bg-gradient-to-r from-yellow-500 to-amber-600 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg border border-white/20 animate-pulse transform rotate-12">
+                                SÜPER BABA
+                            </div>
+                        )}
                     </div>
                     <div>
                         <h1 className="text-3xl font-display text-white">

@@ -24,23 +24,33 @@ function App() {
           Hoş geldiniz kahramanlar! Günlük görevlerinizi takip edin ve gücünüzü artırın.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12 px-4">
-          {USERS.map((user) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12 px-4 justify-center">
+          {USERS.filter(u => u.role !== 'admin').map((user) => (
             <button
               key={user.id}
               onClick={() => setCurrentUser(user)}
-              className={`group relative overflow-hidden rounded-2xl bg-gray-800 p-6 transition-all hover:scale-105 hover:shadow-2xl hover:shadow-${user.avatarColor}/20 border border-gray-700 hover:border-${user.avatarColor} flex flex-col items-center text-center h-full`}
+              className={`group relative overflow-hidden rounded-3xl bg-gray-800 p-10 transition-all hover:scale-110 hover:shadow-2xl hover:shadow-${user.avatarColor}/20 border-2 border-gray-700 hover:border-${user.avatarColor} flex flex-col items-center text-center h-full min-h-[300px] justify-center`}
             >
-              <div className={`absolute inset-0 bg-gradient-to-br from-${user.avatarColor}/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity`} />
-              <div className={`w-16 h-16 mb-4 rounded-full bg-${user.avatarColor}/20 flex items-center justify-center group-hover:bg-${user.avatarColor}/40 transition-colors`}>
-                <Shield className={`w-8 h-8 text-${user.avatarColor}`} />
+              <div className={`absolute inset-0 bg-gradient-to-br from-${user.avatarColor}/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+              <div className={`w-32 h-32 mb-6 rounded-full bg-${user.avatarColor}/20 flex items-center justify-center group-hover:bg-${user.avatarColor}/40 transition-colors duration-300 shadow-lg shadow-${user.avatarColor}/10`}>
+                <Shield className={`w-16 h-16 text-${user.avatarColor} drop-shadow-md`} />
               </div>
-              <h2 className="text-2xl font-bold text-white mb-2 relative z-10">{user.name}</h2>
-              <p className="text-sm text-gray-400 relative z-10 w-full">
-                {user.role === 'ortaokul' ? 'Ortaokul' : 'Lise'}
+              <h2 className="text-4xl font-display font-bold text-white mb-3 relative z-10 tracking-wide">{user.name}</h2>
+              <p className="text-xl text-gray-400 relative z-10 w-full font-medium">
+                {user.role === 'ortaokul' ? 'Ortaokul Kahramanı' : 'Lise Kahramanı'}
               </p>
             </button>
           ))}
+        </div>
+
+        {/* Gizli Yönetici Girişi */}
+        <div className="mt-12">
+          <button
+            onClick={() => setCurrentUser(USERS.find(u => u.role === 'admin') || null)}
+            className="text-gray-800 hover:text-gray-600 text-xs transition-colors"
+          >
+            Yönetici Girişi
+          </button>
         </div>
       </div>
     </div>

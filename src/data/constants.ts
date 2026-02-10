@@ -2,28 +2,26 @@ import { type User, type Subject } from '../types';
 
 export const USERS: User[] = [
     {
-        id: 'hero-iron',
-        name: 'Demir Adam',
-        role: 'ortaokul', // Varsayılan rol (seçim ekranında değişebilir veya sabit kalabilir, şimdilik sabit)
-        avatarColor: 'avengers-red'
-    },
-    {
-        id: 'hero-cap',
-        name: 'Kaptan Amerika',
-        role: 'lise',
-        avatarColor: 'avengers-blue'
-    },
-    {
-        id: 'hero-thor',
-        name: 'Thor',
+        id: 'kivanc',
+        name: 'Kıvanç',
         role: 'ortaokul',
-        avatarColor: 'thor-silver'
+        avatarColor: 'avengers-red',
+        underlyingUserId: 'kivanc'
     },
     {
-        id: 'hero-widow',
-        name: 'Black Widow',
+        id: 'ruya',
+        name: 'Rüya',
         role: 'lise',
-        avatarColor: 'widow-black'
+        avatarColor: 'avengers-blue',
+        underlyingUserId: 'ruya'
+    },
+    {
+        id: 'orkan',
+        name: 'Süper Baba',
+        role: 'admin',
+        avatarColor: 'slate-800',
+        underlyingUserId: 'orkan',
+        avatarImage: '/assets/hero_super_dad.png' // Placeholder until image is generated/moved
     }
 ];
 

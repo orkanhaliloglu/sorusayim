@@ -1,10 +1,12 @@
-export type UserRole = 'ortaokul' | 'lise';
+export type UserRole = 'ortaokul' | 'lise' | 'admin';
 
 export interface User {
     id: string;
     name: string;
     role: UserRole;
-    avatarColor: string; // Tailwind class prefix e.g. 'avengers-red', 'thor-silver'
+    avatarColor: string; // Tailwind class prefix e.g. 'avengers-red'
+    avatarImage?: string; // Path to the avatar image
+    underlyingUserId: string; // 'kivanc' or 'ruya' for database aggregation
 }
 
 export interface Subject {
