@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@config "../tailwind.config.js";
+
+/* 
+  In v4, @apply works better if we don't mix it with legacy @tailwind directives.
+  However, since we are using a config file, we might need to rely on the config content.
+*/
+
+@layer base {
+  body {
+    @apply bg-gray-900 text-white font-sans antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display tracking-wide;
+  }
+}
+
+/* Avengers themed scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #B82E3E;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #C5A059;
+}
