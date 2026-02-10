@@ -77,6 +77,13 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
                     'bg-gray-900'}`
         }>
 
+            {/* Süper Baba Avatar (Transparan - Üst Orta) */}
+            <div className="absolute top-4 left-1/2 transform -translate-x-1/2 opacity-30 hover:opacity-100 transition-opacity duration-300 z-0 pointer-events-none">
+                <div className="w-24 h-24 rounded-full border-4 border-yellow-500/50 overflow-hidden shadow-2xl">
+                    <img src="/assets/hero_super_dad.png" alt="Süper Baba" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" />
+                </div>
+            </div>
+
             {/* Header */}
             <div className="w-full max-w-5xl flex justify-between items-center mb-12">
                 <div className="flex items-center gap-4">
