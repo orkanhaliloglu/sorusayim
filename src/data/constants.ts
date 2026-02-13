@@ -5,15 +5,17 @@ export const USERS: User[] = [
         id: 'kivanc',
         name: 'Kıvanç',
         role: 'ortaokul',
-        avatarColor: 'avengers-red',
-        underlyingUserId: 'kivanc'
+        avatarColor: 'fenerbahce-yellow',
+        underlyingUserId: 'kivanc',
+        email: 'kivanc@orkan.com'
     },
     {
         id: 'ruya',
         name: 'Rüya',
         role: 'lise',
         avatarColor: 'avengers-blue',
-        underlyingUserId: 'ruya'
+        underlyingUserId: 'ruya',
+        email: 'ruya@orkan.com'
     },
     {
         id: 'orkan',
@@ -21,7 +23,8 @@ export const USERS: User[] = [
         role: 'admin',
         avatarColor: 'slate-800',
         underlyingUserId: 'orkan',
-        avatarImage: '/assets/hero_super_dad.png' // Placeholder until image is generated/moved
+        avatarImage: '/assets/hero_super_dad.png', // Placeholder until image is generated/moved
+        email: 'admin@orkan.com'
     }
 ];
 

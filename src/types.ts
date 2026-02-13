@@ -7,6 +7,7 @@ export interface User {
     avatarColor: string; // Tailwind class prefix e.g. 'avengers-red'
     avatarImage?: string; // Path to the avatar image
     underlyingUserId: string; // 'kivanc' or 'ruya' for database aggregation
+    email?: string; // Optional for now to support existing code if any
 }
 
 export interface Subject {

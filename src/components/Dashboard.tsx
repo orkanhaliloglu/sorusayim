@@ -7,6 +7,7 @@ import { Select } from './ui/Select';
 import { Input } from './ui/Input';
 import { Shield, Target, Award, BarChart3 } from 'lucide-react';
 import { WeeklyChart } from './charts/WeeklyChart';
+import { Countdown } from './Countdown';
 
 interface DashboardProps {
     currentUser: User;
@@ -20,31 +21,49 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
     const [successMessage, setSuccessMessage] = useState('');
 
     const [dailyTotal, setDailyTotal] = useState(0);
+    const [totalQuestions, setTotalQuestions] = useState(0);
+
 
     // Kullanıcının rolüne uygun dersleri filtrele
     const availableSubjects = useMemo(() => {
         return SUBJECTS.filter(s => s.role === currentUser.role || s.role === 'common');
     }, [currentUser.role]);
 
-    // Günlük toplam soru sayısını Firebase'den çek
+    // Günlük ve Toplam soru sayısını Firebase'den çek
     useEffect(() => {
-        const fetchDailyTotal = async () => {
+        const fetchStats = async () => {
             // Önce bağlantıyı test et
             const connection = await storage.testConnection();
             if (!connection.success) {
                 setSuccessMessage(`⚠️ Bağlantı Hatası: ${connection.error}`);
-                // 10 saniye ekranda kalsın
                 setTimeout(() => setSuccessMessage(''), 10000);
                 return;
             }
 
             const today = new Date().toISOString().split('T')[0];
-            const logs = await storage.getLogs(currentUser.id, today);
-            const total = logs.reduce((acc, log) => acc + log.questionCount, 0);
-            setDailyTotal(total);
+
+            // Tüm logları çek (Tarih filtresi olmadan)
+            const allLogs = await storage.getLogs(currentUser.id);
+
+            // Günlük Toplam
+            const todayTotal = allLogs
+                .filter(log => log.date === today)
+                .reduce((acc, log) => acc + log.questionCount, 0);
+
+            // Genel Toplam
+            const grandTotal = allLogs.reduce((acc, log) => acc + log.questionCount, 0);
+
+            setDailyTotal(todayTotal);
+            setTotalQuestions(grandTotal);
         };
-        fetchDailyTotal();
+        fetchStats();
     }, [currentUser.id, successMessage]);
+
+    // ... (handleSubmit logic remains same)
+
+    // ... (rendering code)
+
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -71,11 +90,26 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
     };
 
     return (
-        <div className={`min-h-screen p-6 flex flex-col items-center transition-colors duration-500
-            ${currentUser.id === 'hero-thor' ? 'bg-slate-900' :
-                currentUser.id === 'hero-widow' ? 'bg-zinc-950' :
-                    'bg-gray-900'}`
-        }>
+        <div className={`min-h-screen p-6 flex flex-col items-center transition-all duration-500 relative`}>
+
+            {/* Background Image/Gradient Layer */}
+            <div className={`absolute inset-0 z-0 transition-all duration-500
+                ${currentUser.id === 'kivanc' ? 'bg-fenerbahce-blue' :
+                    currentUser.id === 'hero-widow' ? 'bg-zinc-950' :
+                        'bg-gray-900'}`
+            }>
+                {currentUser.id === 'kivanc' && (
+                    <>
+                        <div
+                            className="absolute inset-0 opacity-70 bg-[center_top] bg-cover"
+                            style={{ backgroundImage: "url('/assets/kivanc_bg.jpg')" }}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-b from-fenerbahce-blue/90 via-fenerbahce-blue/70 to-fenerbahce-yellow/40 mix-blend-multiply" />
+                        {/* Sarı Lacivert Şeritler */}
+                        <div className="absolute top-0 w-full h-2 bg-gradient-to-r from-fenerbahce-blue via-fenerbahce-yellow to-fenerbahce-blue shadow-[0_0_20px_rgba(246,201,14,0.5)]" />
+                    </>
+                )}
+            </div>
 
             {/* Süper Baba Avatar (Transparan - Üst Orta) */}
             <div className="absolute top-4 left-1/2 transform -translate-x-1/2 opacity-30 hover:opacity-100 transition-opacity duration-300 z-0 pointer-events-none">
@@ -85,16 +119,29 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
             </div>
 
             {/* Header */}
-            <div className="w-full max-w-5xl flex justify-between items-center mb-12">
-                <div className="flex items-center gap-4">
-                    <div className="relative group">
-                        <div className={`relative p-1 rounded-full bg-${currentUser.avatarColor} shadow-lg shadow-${currentUser.avatarColor}/20 overflow-hidden w-20 h-20 flex items-center justify-center border-2 border-${currentUser.avatarColor}/50`}>
+            <div className="w-full max-w-5xl flex flex-col md:flex-row justify-between items-center mb-12 gap-6 relative z-10">
+                <div className="flex flex-col md:flex-row items-center gap-6">
+                    <div className="relative group flex flex-col items-center">
+                        <div className={`relative p-1 rounded-full bg-${currentUser.avatarColor} shadow-lg shadow-${currentUser.avatarColor}/40 overflow-hidden w-24 h-24 flex items-center justify-center border-4 border-${currentUser.avatarColor === 'fenerbahce-yellow' ? 'fenerbahce-blue' : currentUser.avatarColor}/50`}>
                             {currentUser.avatarImage ? (
                                 <img src={currentUser.avatarImage} alt={currentUser.name} className="w-full h-full object-cover rounded-full" />
                             ) : (
-                                <Shield className="w-10 h-10 text-white" />
+                                <Shield className="w-12 h-12 text-white" />
                             )}
                         </div>
+
+                        {/* LGS/YKS Countdown Buraya Taşındı (Resmin Altı) */}
+                        {currentUser.id === 'kivanc' && (
+                            <div className="mt-4 transform hover:scale-105 transition-transform">
+                                <Countdown targetDate={new Date('2027-06-06')} title="LGS 2027" variant="small" panic={true} />
+                            </div>
+                        )}
+                        {currentUser.id === 'ruya' && (
+                            <div className="mt-4 transform hover:scale-105 transition-transform">
+                                <Countdown targetDate={new Date('2027-06-19')} title="YKS 2027" variant="small" panic={true} />
+                            </div>
+                        )}
+
                         {/* Süper Baba Etiketi (Sağ üst) - Sadece Admin için */}
                         {currentUser.role === 'admin' && (
                             <div className="absolute -top-2 -right-2 bg-gradient-to-r from-yellow-500 to-amber-600 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg border border-white/20 animate-pulse transform rotate-12">
@@ -102,17 +149,19 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
                             </div>
                         )}
                     </div>
-                    <div>
-                        <h1 className="text-3xl font-display text-white">
-                            Merhaba, {currentUser.name}!
+                    <div className="text-center md:text-left">
+                        <h1 className="text-4xl font-display text-white drop-shadow-lg">
+                            Merhaba, <span className={currentUser.id === 'kivanc' ? 'text-fenerbahce-yellow' : ''}>{currentUser.name}!</span>
                         </h1>
-                        <p className="text-gray-400">Bugün dünyayı kurtarmaya hazır mısın?</p>
+                        <p className="text-gray-300 text-lg">Bugün dünyayı kurtarmaya hazır mısın?</p>
                     </div>
                 </div>
-                <Button variant="outline" size="sm" onClick={onLogout}>
+
+                <Button variant="outline" size="sm" onClick={onLogout} className="whitespace-nowrap">
                     Çıkış Yap
                 </Button>
             </div>
+
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-6xl">
 
@@ -168,13 +217,17 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
 
                     <div className="relative z-10">
                         <h2 className="text-2xl font-display text-white mb-2">Günlük İlerleme</h2>
-                        <div className={`w-48 h-48 rounded-full border-8 border-gray-700 flex items-center justify-center mb-4 relative ${dailyTotal > 0 ? 'border-avengers-gold' : ''} transition-colors duration-500`}>
-                            <span className="text-5xl font-bold text-white">{dailyTotal}</span>
-                            <span className="text-sm text-gray-400 absolute bottom-10">Soru</span>
+                        <div className={`w-40 h-40 rounded-full border-8 border-gray-700 flex items-center justify-center mb-2 relative ${dailyTotal > 0 ? 'border-avengers-gold' : ''} transition-colors duration-500`}>
+                            <span className="text-4xl font-bold text-white">{dailyTotal}</span>
                         </div>
-                        <p className="text-gray-400">
-                            {dailyTotal === 0 ? 'Henüz yolun başındasın!' : 'Harika gidiyorsun!'}
-                        </p>
+                        <div className="mt-4 p-4 bg-gradient-to-r from-blue-900/50 to-purple-900/50 rounded-xl border border-white/20 w-full relative overflow-hidden group hover:scale-105 transition-transform duration-300">
+                            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                            <div className="text-xs text-blue-200 font-bold uppercase tracking-widest mb-1">Toplam Çözülen</div>
+                            <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 drop-shadow-[0_2px_10px_rgba(59,130,246,0.5)]">
+                                {totalQuestions}
+                            </div>
+                            <div className="absolute -bottom-6 -right-6 w-20 h-20 bg-blue-500/20 rounded-full blur-xl" />
+                        </div>
                     </div>
                 </div>
 

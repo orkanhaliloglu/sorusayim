@@ -10,6 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@capacitor/cli": "^8.1.0",
+    "@capacitor/core": "^8.1.0",
+    "@capacitor/ios": "^8.1.0",
     "clsx": "^2.1.1",
     "firebase": "^12.9.0",
     "lucide-react": "^0.563.0",

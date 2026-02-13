@@ -15,6 +15,8 @@ export default {
         'thor-lightning': '#00BFFF', // Deep Sky Blue
         'widow-black': '#111111',
         'widow-red': '#FF0000', // Black Widow hourglass red
+        'fenerbahce-yellow': '#F6C90E', // Canary Yellow
+        'fenerbahce-blue': '#002D72', // Navy Blue
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
