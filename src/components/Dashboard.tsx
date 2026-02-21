@@ -5,8 +5,9 @@ import { storage } from '../lib/storage';
 import { Button } from './ui/Button';
 import { Select } from './ui/Select';
 import { Input } from './ui/Input';
-import { Shield, Target, Award, BarChart3 } from 'lucide-react';
+import { Shield, Target, Award, BarChart3, ClipboardList } from 'lucide-react';
 import { WeeklyChart } from './charts/WeeklyChart';
+import { SubjectReport } from './SubjectReport';
 import { Countdown } from './Countdown';
 
 interface DashboardProps {
@@ -95,20 +96,40 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
             {/* Background Image/Gradient Layer */}
             <div className={`absolute inset-0 z-0 transition-all duration-500
                 ${currentUser.id === 'kivanc' ? 'bg-fenerbahce-blue' :
-                    currentUser.id === 'hero-widow' ? 'bg-zinc-950' :
-                        'bg-gray-900'}`
+                    currentUser.id === 'ruya' ? 'bg-avengers-blue' :
+                        'bg-slate-950'}`
             }>
-                {currentUser.id === 'kivanc' && (
-                    <>
-                        <div
-                            className="absolute inset-0 opacity-70 bg-[center_top] bg-cover"
-                            style={{ backgroundImage: "url('/assets/kivanc_bg.jpg')" }}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-b from-fenerbahce-blue/90 via-fenerbahce-blue/70 to-fenerbahce-yellow/40 mix-blend-multiply" />
-                        {/* Sarı Lacivert Şeritler */}
-                        <div className="absolute top-0 w-full h-2 bg-gradient-to-r from-fenerbahce-blue via-fenerbahce-yellow to-fenerbahce-blue shadow-[0_0_20px_rgba(246,201,14,0.5)]" />
-                    </>
-                )}
+                {/* Her kullanıcı için özel arka plan katmanı */}
+                <div
+                    className="absolute inset-0 opacity-50 bg-[center_top] bg-cover transition-opacity duration-700"
+                    style={{
+                        backgroundImage: currentUser.id === 'kivanc'
+                            ? "url('/assets/kivanc_bg.jpg')"
+                            : currentUser.id === 'ruya'
+                                ? "url('/assets/ruya_bg.jpg')"
+                                : "url('/assets/hero_bg.jpg')"
+                    }}
+                />
+
+                {/* Dinamik Gradyan Katmanı */}
+                <div className={`absolute inset-0 bg-gradient-to-b mix-blend-multiply transition-all duration-500
+                    ${currentUser.id === 'kivanc'
+                        ? 'from-fenerbahce-blue/90 via-fenerbahce-blue/70 to-fenerbahce-yellow/40'
+                        : currentUser.id === 'ruya'
+                            ? 'from-avengers-blue/90 via-avengers-blue/70 to-avengers-red/40'
+                            : 'from-slate-900/90 via-slate-900/70 to-avengers-gold/30'
+                    }`}
+                />
+
+                {/* Üst Şerit Efekti */}
+                <div className={`absolute top-0 w-full h-2 shadow-[0_0_20px_rgba(255,255,255,0.2)] bg-gradient-to-r
+                    ${currentUser.id === 'kivanc'
+                        ? 'from-fenerbahce-blue via-fenerbahce-yellow to-fenerbahce-blue shadow-fenerbahce-yellow/30'
+                        : currentUser.id === 'ruya'
+                            ? 'from-avengers-blue via-avengers-red to-avengers-blue shadow-avengers-red/30'
+                            : 'from-slate-800 via-avengers-gold to-slate-800 shadow-avengers-gold/30'
+                    }`}
+                />
             </div>
 
             {/* Süper Baba Avatar (Transparan - Üst Orta) */}
@@ -232,7 +253,7 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
                 </div>
 
                 {/* Haftalık Grafik */}
-                <div className="md:col-span-2 lg:col-span-1 bg-gray-800 p-8 rounded-2xl border border-gray-700 shadow-2xl relative overflow-hidden flex flex-col">
+                <div className="md:col-span-1 bg-gray-800 p-8 rounded-2xl border border-gray-700 shadow-2xl relative overflow-hidden flex flex-col">
                     <div className="absolute top-0 right-0 p-4 opacity-5">
                         <BarChart3 className="w-32 h-32" />
                     </div>
@@ -243,6 +264,21 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
 
                     <div className="flex-1 min-h-[200px] relative z-10">
                         <WeeklyChart currentUser={currentUser} refreshTrigger={successMessage} />
+                    </div>
+                </div>
+
+                {/* Günlük Rapor */}
+                <div className="md:col-span-1 bg-gray-800 p-8 rounded-2xl border border-gray-700 shadow-2xl relative overflow-hidden flex flex-col">
+                    <div className="absolute top-0 right-0 p-4 opacity-5">
+                        <ClipboardList className="w-32 h-32" />
+                    </div>
+
+                    <h2 className="text-2xl font-display text-white mb-6 flex items-center gap-2 relative z-10">
+                        <span className="text-green-500">📋</span> Detaylı Rapor
+                    </h2>
+
+                    <div className="flex-1 relative z-10">
+                        <SubjectReport currentUser={currentUser} refreshTrigger={successMessage} />
                     </div>
                 </div>
 
