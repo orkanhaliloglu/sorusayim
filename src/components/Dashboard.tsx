@@ -107,9 +107,9 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
             }>
                 {/* Her kullanıcı için özel arka plan katmanı */}
                 <div
-                    className="absolute inset-0 opacity-50 bg-[center_top] bg-cover transition-opacity duration-700"
+                    className="absolute inset-0 opacity-60 bg-[center_top] bg-cover transition-opacity duration-700"
                     style={{
-                        backgroundImage: currentUser.id === 'kivanc'
+                        backgroundImage: currentUser.id === 'kivanc' || currentUser.id === 'orkan'
                             ? "url('/assets/kivanc_bg.jpg')"
                             : currentUser.id === 'ruya'
                                 ? "url('/assets/ruya_bg.jpg')"
@@ -139,7 +139,7 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
             </div>
 
             {/* Süper Baba Avatar (Transparan - Üst Orta) */}
-            <div className="absolute top-4 left-1/2 transform -translate-x-1/2 opacity-30 hover:opacity-100 transition-opacity duration-300 z-0 pointer-events-none">
+            <div className="absolute top-4 left-1/2 transform -translate-x-1/2 opacity-40 hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none">
                 <div className="w-24 h-24 rounded-full border-4 border-yellow-500/50 overflow-hidden shadow-2xl">
                     <img src="/assets/hero_super_dad.png" alt="Süper Baba" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" />
                 </div>
