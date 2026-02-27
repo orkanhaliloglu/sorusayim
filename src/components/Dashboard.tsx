@@ -101,15 +101,15 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
 
             {/* Background Image/Gradient Layer */}
             <div className={`absolute inset-0 z-0 transition-all duration-500
-                ${currentUser.id === 'kivanc' ? 'bg-fenerbahce-blue' :
+                ${currentUser.id === 'kivanc' || currentUser.id === 'orkan' ? 'bg-fenerbahce-blue' :
                     currentUser.id === 'ruya' ? 'bg-avengers-blue' :
                         'bg-slate-950'}`
             }>
                 {/* Her kullanıcı için özel arka plan katmanı */}
                 <div
-                    className="absolute inset-0 opacity-80 bg-[center_top] bg-cover transition-opacity duration-700"
+                    className="absolute inset-0 opacity-100 bg-[center_top] bg-cover transition-opacity duration-700"
                     style={{
-                        backgroundImage: currentUser.id === 'kivanc' || currentUser.id === 'orkan'
+                        backgroundImage: (currentUser.id === 'kivanc' || currentUser.id === 'orkan')
                             ? "url('/assets/kivanc_bg.jpg')"
                             : currentUser.id === 'ruya'
                                 ? "url('/assets/ruya_bg.jpg')"
@@ -129,7 +129,7 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
 
                 {/* Üst Şerit Efekti */}
                 <div className={`absolute top-0 w-full h-2 shadow-[0_0_20px_rgba(255,255,255,0.2)] bg-gradient-to-r
-                    ${currentUser.id === 'kivanc'
+                    ${currentUser.id === 'kivanc' || currentUser.id === 'orkan'
                         ? 'from-fenerbahce-blue via-fenerbahce-yellow to-fenerbahce-blue shadow-fenerbahce-yellow/30'
                         : currentUser.id === 'ruya'
                             ? 'from-avengers-blue via-avengers-red to-avengers-blue shadow-avengers-red/30'
@@ -138,10 +138,10 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
                 />
             </div>
 
-            {/* Süper Baba Avatar (Transparan - Üst Orta) */}
-            <div className="absolute top-4 left-1/2 transform -translate-x-1/2 opacity-70 hover:opacity-100 transition-opacity duration-300 z-50 pointer-events-none">
-                <div className="w-24 h-24 rounded-full border-4 border-yellow-500/50 overflow-hidden shadow-2xl">
-                    <img src="/assets/hero_super_dad.png" alt="Süper Baba" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" />
+            {/* Süper Baba Avatar (Hafif Şeffaf - Üst Orta - Canlı) */}
+            <div className="absolute top-4 left-1/2 transform -translate-x-1/2 opacity-90 hover:opacity-100 transition-opacity duration-300 z-50 pointer-events-none">
+                <div className="w-24 h-24 rounded-full border-4 border-fenerbahce-yellow overflow-hidden shadow-[0_0_30px_rgba(246,201,14,0.3)]">
+                    <img src="/assets/hero_super_dad.png" alt="Süper Baba" className="w-full h-full object-cover transition-all duration-500" />
                 </div>
             </div>
 
@@ -181,7 +181,7 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
                     </div>
                     <div className="text-center md:text-left">
                         <h1 className="text-4xl font-display text-white drop-shadow-lg">
-                            Merhaba, <span className={currentUser.id === 'kivanc' ? 'text-fenerbahce-yellow' : ''}>{currentUser.name}!</span>
+                            Merhaba, <span className={currentUser.id === 'kivanc' || currentUser.id === 'orkan' ? 'text-fenerbahce-yellow' : ''}>{currentUser.name}!</span>
                         </h1>
                         <p className="text-gray-300 text-lg">Bugün dünyayı kurtarmaya hazır mısın?</p>
                     </div>
