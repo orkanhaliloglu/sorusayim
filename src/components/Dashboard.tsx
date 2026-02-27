@@ -107,7 +107,7 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
             }>
                 {/* Her kullanıcı için özel arka plan katmanı */}
                 <div
-                    className="absolute inset-0 opacity-60 bg-[center_top] bg-cover transition-opacity duration-700"
+                    className="absolute inset-0 opacity-80 bg-[center_top] bg-cover transition-opacity duration-700"
                     style={{
                         backgroundImage: currentUser.id === 'kivanc' || currentUser.id === 'orkan'
                             ? "url('/assets/kivanc_bg.jpg')"
@@ -119,11 +119,11 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
 
                 {/* Dinamik Gradyan Katmanı */}
                 <div className={`absolute inset-0 bg-gradient-to-b mix-blend-multiply transition-all duration-500
-                    ${currentUser.id === 'kivanc'
-                        ? 'from-fenerbahce-blue/90 via-fenerbahce-blue/70 to-fenerbahce-yellow/40'
+                    ${currentUser.id === 'kivanc' || currentUser.id === 'orkan'
+                        ? 'from-fenerbahce-blue/70 via-fenerbahce-blue/50 to-fenerbahce-yellow/20'
                         : currentUser.id === 'ruya'
-                            ? 'from-avengers-blue/90 via-avengers-blue/70 to-avengers-red/40'
-                            : 'from-slate-900/90 via-slate-900/70 to-avengers-gold/30'
+                            ? 'from-avengers-blue/70 via-avengers-blue/50 to-avengers-red/20'
+                            : 'from-slate-900/70 via-slate-900/50 to-avengers-gold/20'
                     }`}
                 />
 
@@ -139,7 +139,7 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
             </div>
 
             {/* Süper Baba Avatar (Transparan - Üst Orta) */}
-            <div className="absolute top-4 left-1/2 transform -translate-x-1/2 opacity-40 hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none">
+            <div className="absolute top-4 left-1/2 transform -translate-x-1/2 opacity-70 hover:opacity-100 transition-opacity duration-300 z-50 pointer-events-none">
                 <div className="w-24 h-24 rounded-full border-4 border-yellow-500/50 overflow-hidden shadow-2xl">
                     <img src="/assets/hero_super_dad.png" alt="Süper Baba" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" />
                 </div>
@@ -149,7 +149,10 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
             <div className="w-full max-w-5xl flex flex-col md:flex-row justify-between items-center mb-12 gap-6 relative z-10">
                 <div className="flex flex-col md:flex-row items-center gap-6">
                     <div className="relative group flex flex-col items-center">
-                        <div className={`relative p-1 rounded-full bg-${currentUser.avatarColor} shadow-lg shadow-${currentUser.avatarColor}/40 overflow-hidden w-24 h-24 flex items-center justify-center border-4 border-${currentUser.avatarColor === 'fenerbahce-yellow' ? 'fenerbahce-blue' : currentUser.avatarColor}/50`}>
+                        <div className={`relative p-1 rounded-full shadow-lg overflow-hidden w-24 h-24 flex items-center justify-center border-4 
+                            ${currentUser.avatarColor === 'fenerbahce-yellow' ? 'bg-fenerbahce-yellow shadow-fenerbahce-yellow/40 border-fenerbahce-blue/50' :
+                                currentUser.avatarColor === 'avengers-blue' ? 'bg-avengers-blue shadow-avengers-blue/40 border-avengers-red/50' :
+                                    'bg-slate-800 shadow-slate-800/40 border-avengers-gold/50'}`}>
                             {currentUser.avatarImage ? (
                                 <img src={currentUser.avatarImage} alt={currentUser.name} className="w-full h-full object-cover rounded-full" />
                             ) : (
