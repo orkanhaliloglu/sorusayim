@@ -1,6 +1,6 @@
 import { type DailyLog } from '../types';
 import { db } from './firebase';
-import { collection, addDoc, getDocs, query, where, Timestamp } from 'firebase/firestore';
+import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where, Timestamp } from 'firebase/firestore';
 
 const COLLECTION_NAME = 'daily_logs';
 
@@ -61,6 +61,33 @@ export const storage = {
         } catch (error) {
             console.error('Error saving log to Firebase:', error);
             return null;
+        }
+    },
+
+    // Firestore'da veri güncelleme (Async)
+    updateLog: async (logId: string, updates: Partial<Omit<DailyLog, 'id' | 'timestamp'>>) => {
+        try {
+            const docRef = doc(db, COLLECTION_NAME, logId);
+            await updateDoc(docRef, {
+                ...updates,
+                updatedAt: Timestamp.now()
+            });
+            return true;
+        } catch (error) {
+            console.error('Error updating log in Firebase:', error);
+            return false;
+        }
+    },
+
+    // Firestore'dan veri silme (Async)
+    deleteLog: async (logId: string) => {
+        try {
+            const docRef = doc(db, COLLECTION_NAME, logId);
+            await deleteDoc(docRef);
+            return true;
+        } catch (error) {
+            console.error('Error deleting log from Firebase:', error);
+            return false;
         }
     },
 

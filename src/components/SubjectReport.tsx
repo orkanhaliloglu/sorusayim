@@ -2,7 +2,9 @@ import { useEffect, useState, useMemo } from 'react';
 import { storage } from '../lib/storage';
 import { type User, type DailyLog } from '../types';
 import { SUBJECTS } from '../data/constants';
-import { Calendar, ClipboardList } from 'lucide-react';
+import { Calendar, ClipboardList, Edit2, Trash2, X, Check } from 'lucide-react';
+import { Button } from './ui/Button';
+import { Input } from './ui/Input';
 
 interface SubjectReportProps {
     currentUser: User;
@@ -14,6 +16,7 @@ interface GroupedLogs {
     subjects: {
         subjectId: string;
         subjectName: string;
+        logs: DailyLog[]; // Store individual logs
         count: number;
     }[];
     total: number;
@@ -50,24 +53,68 @@ export function SubjectReport({ currentUser, refreshTrigger }: SubjectReportProp
             groups[log.date][log.subjectId] += log.questionCount;
         });
 
-        const result: GroupedLogs[] = Object.keys(groups)
-            .sort((a, b) => b.localeCompare(a)) // Date descending
-            .map(date => {
-                const subjects = Object.keys(groups[date]).map(subId => ({
+        const sortedDates = Object.keys(groups).sort((a, b) => b.localeCompare(a));
+
+        const result: GroupedLogs[] = sortedDates.map(date => {
+            const subjectsInDate = Array.from(new Set(logs.filter(l => l.date === date).map(l => l.subjectId)));
+
+            const subjects = subjectsInDate.map(subId => {
+                const subjectLogs = logs.filter(l => l.date === date && l.subjectId === subId);
+                return {
                     subjectId: subId,
                     subjectName: SUBJECTS.find(s => s.id === subId)?.name || 'Bilinmeyen Ders',
-                    count: groups[date][subId]
-                }));
-
-                return {
-                    date,
-                    subjects,
-                    total: subjects.reduce((sum, s) => sum + s.count, 0)
+                    logs: subjectLogs,
+                    count: subjectLogs.reduce((sum, l) => sum + l.questionCount, 0)
                 };
             });
 
+            return {
+                date,
+                subjects,
+                total: subjects.reduce((sum, s) => sum + s.count, 0)
+            };
+        });
+
         return result;
     }, [logs]);
+
+    const [editingLogId, setEditingLogId] = useState<string | null>(null);
+    const [editValue, setEditValue] = useState<string>('');
+    const [isProcessing, setIsProcessing] = useState<string | null>(null);
+
+    const handleEditStart = (log: DailyLog) => {
+        setEditingLogId(log.id);
+        setEditValue(log.questionCount.toString());
+    };
+
+    const handleEditCancel = () => {
+        setEditingLogId(null);
+        setEditValue('');
+    };
+
+    const handleUpdate = async (logId: string) => {
+        const newCount = parseInt(editValue);
+        if (isNaN(newCount) || newCount <= 0) return;
+
+        setIsProcessing(logId);
+        const success = await storage.updateLog(logId, { questionCount: newCount });
+        if (success) {
+            setLogs(prev => prev.map(l => l.id === logId ? { ...l, questionCount: newCount } : l));
+            setEditingLogId(null);
+        }
+        setIsProcessing(null);
+    };
+
+    const handleDelete = async (logId: string) => {
+        if (!window.confirm('Bu girişi silmek istediğine emin misin?')) return;
+
+        setIsProcessing(logId);
+        const success = await storage.deleteLog(logId);
+        if (success) {
+            setLogs(prev => prev.filter(l => l.id !== logId));
+        }
+        setIsProcessing(null);
+    };
 
     if (isLoading) {
         return (
@@ -103,11 +150,72 @@ export function SubjectReport({ currentUser, refreshTrigger }: SubjectReportProp
                             {group.total} Soru
                         </div>
                     </div>
-                    <div className="p-3 space-y-2">
+                    <div className="p-3 space-y-3">
                         {group.subjects.map((sub) => (
-                            <div key={sub.subjectId} className="flex justify-between items-center text-sm">
-                                <span className="text-gray-400">{sub.subjectName}</span>
-                                <span className="font-mono font-bold text-white">{sub.count}</span>
+                            <div key={sub.subjectId} className="space-y-1">
+                                <div className="flex justify-between items-center text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
+                                    <span>{sub.subjectName}</span>
+                                    <span>Toplam: {sub.count}</span>
+                                </div>
+                                <div className="space-y-1.5">
+                                    {sub.logs.map((log) => (
+                                        <div key={log.id} className="group/item flex justify-between items-center text-sm bg-gray-800/30 p-2 rounded-lg border border-transparent hover:border-gray-600/50 transition-all">
+                                            {editingLogId === log.id ? (
+                                                <div className="flex items-center gap-2 w-full">
+                                                    <Input
+                                                        type="number"
+                                                        value={editValue}
+                                                        onChange={(e) => setEditValue(e.target.value)}
+                                                        className="h-8 py-0 px-2 w-20 text-sm"
+                                                        autoFocus
+                                                    />
+                                                    <Button
+                                                        size="sm"
+                                                        className="h-8 w-8 p-0 bg-green-600 hover:bg-green-700"
+                                                        onClick={() => handleUpdate(log.id)}
+                                                        disabled={isProcessing === log.id}
+                                                    >
+                                                        <Check className="w-4 h-4" />
+                                                    </Button>
+                                                    <Button
+                                                        size="sm"
+                                                        variant="outline"
+                                                        className="h-8 w-8 p-0 border-gray-600 hover:bg-gray-700"
+                                                        onClick={handleEditCancel}
+                                                        disabled={isProcessing === log.id}
+                                                    >
+                                                        <X className="w-4 h-4" />
+                                                    </Button>
+                                                </div>
+                                            ) : (
+                                                <>
+                                                    <div className="flex flex-col">
+                                                        <span className="font-mono font-bold text-white text-lg">{log.questionCount}</span>
+                                                        <span className="text-[10px] text-gray-500">
+                                                            {new Date(log.timestamp).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}
+                                                        </span>
+                                                    </div>
+                                                    <div className="flex gap-1 transition-opacity">
+                                                        <button
+                                                            onClick={() => handleEditStart(log)}
+                                                            className="p-1.5 text-blue-400 hover:bg-blue-400/10 rounded-md transition-colors opacity-40 hover:opacity-100"
+                                                            title="Düzenle"
+                                                        >
+                                                            <Edit2 className="w-4 h-4" />
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleDelete(log.id)}
+                                                            className="p-1.5 text-red-400 hover:bg-red-400/10 rounded-md transition-colors opacity-40 hover:opacity-100"
+                                                            title="Sil"
+                                                        >
+                                                            <Trash2 className="w-4 h-4" />
+                                                        </button>
+                                                    </div>
+                                                </>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         ))}
                     </div>

@@ -22,6 +22,7 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
     const [successMessage, setSuccessMessage] = useState('');
 
     const [dailyTotal, setDailyTotal] = useState(0);
+    const [dailyAverage, setDailyAverage] = useState(0);
     const [totalQuestions, setTotalQuestions] = useState(0);
 
 
@@ -41,10 +42,10 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
                 return;
             }
 
-            const today = new Date().toISOString().split('T')[0];
-
             // Tüm logları çek (Tarih filtresi olmadan)
             const allLogs = await storage.getLogs(currentUser.id);
+
+            const today = new Date().toISOString().split('T')[0];
 
             // Günlük Toplam
             const todayTotal = allLogs
@@ -54,7 +55,12 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
             // Genel Toplam
             const grandTotal = allLogs.reduce((acc, log) => acc + log.questionCount, 0);
 
+            // Günlük Ortalama Hesabı
+            const uniqueDates = new Set(allLogs.map(log => log.date));
+            const average = uniqueDates.size > 0 ? Math.round(grandTotal / uniqueDates.size) : 0;
+
             setDailyTotal(todayTotal);
+            setDailyAverage(average);
             setTotalQuestions(grandTotal);
         };
         fetchStats();
@@ -241,13 +247,19 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
                         <div className={`w-40 h-40 rounded-full border-8 border-gray-700 flex items-center justify-center mb-2 relative ${dailyTotal > 0 ? 'border-avengers-gold' : ''} transition-colors duration-500`}>
                             <span className="text-4xl font-bold text-white">{dailyTotal}</span>
                         </div>
-                        <div className="mt-4 p-4 bg-gradient-to-r from-blue-900/50 to-purple-900/50 rounded-xl border border-white/20 w-full relative overflow-hidden group hover:scale-105 transition-transform duration-300">
-                            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                            <div className="text-xs text-blue-200 font-bold uppercase tracking-widest mb-1">Toplam Çözülen</div>
-                            <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 drop-shadow-[0_2px_10px_rgba(59,130,246,0.5)]">
-                                {totalQuestions}
+                        <div className="mt-4 grid grid-cols-2 gap-3 w-full">
+                            <div className="p-3 bg-gradient-to-r from-blue-900/50 to-blue-800/50 rounded-xl border border-white/10 relative overflow-hidden group hover:scale-105 transition-transform duration-300">
+                                <div className="text-[10px] text-blue-200 font-bold uppercase tracking-widest mb-1">Toplam</div>
+                                <div className="text-2xl font-black text-white">
+                                    {totalQuestions}
+                                </div>
                             </div>
-                            <div className="absolute -bottom-6 -right-6 w-20 h-20 bg-blue-500/20 rounded-full blur-xl" />
+                            <div className="p-3 bg-gradient-to-r from-purple-900/50 to-purple-800/50 rounded-xl border border-white/10 relative overflow-hidden group hover:scale-105 transition-transform duration-300">
+                                <div className="text-[10px] text-purple-200 font-bold uppercase tracking-widest mb-1">Ortalama</div>
+                                <div className="text-2xl font-black text-white">
+                                    {dailyAverage}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
