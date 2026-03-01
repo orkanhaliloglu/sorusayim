@@ -20,6 +20,7 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
     const [questionCount, setQuestionCount] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
+    const [selectedDate, setSelectedDate] = useState(() => new Date().toISOString().split('T')[0]);
 
     const [dailyTotal, setDailyTotal] = useState(0);
     const [dailyAverage, setDailyAverage] = useState(0);
@@ -82,7 +83,7 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
             userId: currentUser.id,
             subjectId: selectedSubject,
             questionCount: parseInt(questionCount),
-            date: new Date().toISOString().split('T')[0],
+            date: selectedDate,
         });
 
         if (result) {
@@ -206,6 +207,17 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
                     </h2>
 
                     <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+                        <Input
+                            label="Tarih"
+                            type="date"
+                            value={selectedDate}
+                            onChange={(e) => setSelectedDate(e.target.value)}
+                            max={new Date().toISOString().split('T')[0]} // prevent future dates
+                            required
+                            className="text-white bg-gray-800 border-2 border-gray-700 w-full rounded-xl px-4 py-3"
+                            style={{ colorScheme: 'dark' }}
+                        />
+
                         <Select
                             label="Hangi Ders?"
                             value={selectedSubject}
@@ -226,7 +238,7 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
                         <Button
                             type="submit"
                             className="w-full"
-                            disabled={!selectedSubject || !questionCount || isSubmitting}
+                            disabled={!selectedSubject || !questionCount || !selectedDate || isSubmitting}
                         >
                             {isSubmitting ? 'Kaydediliyor...' : 'Görevi Tamamla!'}
                         </Button>
