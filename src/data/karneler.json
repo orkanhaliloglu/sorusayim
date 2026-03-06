@@ -1,0 +1,1184 @@
+[
+  {
+    "sinavAdi": "KIVANÇ UTKU HALİLOĞLU - Sınav Karnesi - 7.SINIF HIZ-2",
+    "dersler": [
+      {
+        "ders": "Türkçe",
+        "soruSayisi": 20,
+        "dogru": 15,
+        "yanlis": 5,
+        "bos": 0,
+        "net": 13.33
+      },
+      {
+        "ders": "Matematik",
+        "soruSayisi": 20,
+        "dogru": 9,
+        "yanlis": 10,
+        "bos": 1,
+        "net": 5.67
+      },
+      {
+        "ders": "Fen\tBilimleri",
+        "soruSayisi": 20,
+        "dogru": 11,
+        "yanlis": 7,
+        "bos": 2,
+        "net": 8.67
+      },
+      {
+        "ders": "Sosyal\tBilgiler",
+        "soruSayisi": 10,
+        "dogru": 8,
+        "yanlis": 2,
+        "bos": 0,
+        "net": 7.33
+      },
+      {
+        "ders": "İngilizce",
+        "soruSayisi": 10,
+        "dogru": 10,
+        "yanlis": 0,
+        "bos": 0,
+        "net": 10.0
+      },
+      {
+        "ders": "Din Kültürü",
+        "soruSayisi": 10,
+        "dogru": 8,
+        "yanlis": 2,
+        "bos": 0,
+        "net": 7.33
+      }
+    ],
+    "konular": [
+      {
+        "konu": "Matematik",
+        "soruSayisi": 20,
+        "dogru": 9,
+        "yanlis": 10,
+        "bos": 1,
+        "basariYuzdesi": 5.67
+      },
+      {
+        "konu": "İngilizce",
+        "soruSayisi": 10,
+        "dogru": 10,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 10.0
+      },
+      {
+        "konu": "Biographies",
+        "soruSayisi": 1,
+        "dogru": 1,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      },
+      {
+        "konu": "Sports",
+        "soruSayisi": 4,
+        "dogru": 4,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      },
+      {
+        "konu": "Fiiller",
+        "soruSayisi": 3,
+        "dogru": 3,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      },
+      {
+        "konu": "Hücre",
+        "soruSayisi": 3,
+        "dogru": 1,
+        "yanlis": 1,
+        "bos": 1,
+        "basariYuzdesi": 33.33
+      },
+      {
+        "konu": "Mayoz",
+        "soruSayisi": 4,
+        "dogru": 1,
+        "yanlis": 2,
+        "bos": 1,
+        "basariYuzdesi": 25.0
+      },
+      {
+        "konu": "Mitoz",
+        "soruSayisi": 2,
+        "dogru": 0,
+        "yanlis": 2,
+        "bos": 0,
+        "basariYuzdesi": 0.0
+      },
+      {
+        "konu": "Yıldızlar",
+        "soruSayisi": 1,
+        "dogru": 1,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      }
+    ]
+  },
+  {
+    "sinavAdi": "KIVANÇ UTKU HALİLOĞLU - Sınav Karnesi - 7.SINIF HIZ-3",
+    "dersler": [
+      {
+        "ders": "Türkçe",
+        "soruSayisi": 20,
+        "dogru": 11,
+        "yanlis": 8,
+        "bos": 1,
+        "net": 8.33
+      },
+      {
+        "ders": "Matematik",
+        "soruSayisi": 20,
+        "dogru": 6,
+        "yanlis": 9,
+        "bos": 5,
+        "net": 3.0
+      },
+      {
+        "ders": "Fen\tBilimleri",
+        "soruSayisi": 20,
+        "dogru": 10,
+        "yanlis": 8,
+        "bos": 2,
+        "net": 7.33
+      },
+      {
+        "ders": "Sosyal\tBilgiler",
+        "soruSayisi": 10,
+        "dogru": 7,
+        "yanlis": 2,
+        "bos": 1,
+        "net": 6.33
+      },
+      {
+        "ders": "İngilizce",
+        "soruSayisi": 10,
+        "dogru": 10,
+        "yanlis": 0,
+        "bos": 0,
+        "net": 10.0
+      },
+      {
+        "ders": "Din Kültürü",
+        "soruSayisi": 10,
+        "dogru": 6,
+        "yanlis": 3,
+        "bos": 1,
+        "net": 5.0
+      }
+    ],
+    "konular": [
+      {
+        "konu": "Matematik",
+        "soruSayisi": 20,
+        "dogru": 6,
+        "yanlis": 9,
+        "bos": 5,
+        "basariYuzdesi": 3.0
+      },
+      {
+        "konu": "İngilizce",
+        "soruSayisi": 10,
+        "dogru": 10,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 10.0
+      },
+      {
+        "konu": "Biographies",
+        "soruSayisi": 1,
+        "dogru": 1,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      },
+      {
+        "konu": "Sports",
+        "soruSayisi": 3,
+        "dogru": 3,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      },
+      {
+        "konu": "Fiiller",
+        "soruSayisi": 4,
+        "dogru": 2,
+        "yanlis": 2,
+        "bos": 0,
+        "basariYuzdesi": 50.0
+      },
+      {
+        "konu": "Hücre",
+        "soruSayisi": 3,
+        "dogru": 1,
+        "yanlis": 1,
+        "bos": 1,
+        "basariYuzdesi": 33.33
+      },
+      {
+        "konu": "Mayoz",
+        "soruSayisi": 2,
+        "dogru": 0,
+        "yanlis": 2,
+        "bos": 0,
+        "basariYuzdesi": 0.0
+      },
+      {
+        "konu": "Mitoz",
+        "soruSayisi": 4,
+        "dogru": 1,
+        "yanlis": 2,
+        "bos": 1,
+        "basariYuzdesi": 25.0
+      }
+    ]
+  },
+  {
+    "sinavAdi": "KIVANÇ UTKU HALİLOĞLU - Sınav Karnesi - 7.SINIF HIZ-1",
+    "dersler": [
+      {
+        "ders": "Türkçe",
+        "soruSayisi": 20,
+        "dogru": 16,
+        "yanlis": 4,
+        "bos": 0,
+        "net": 14.67
+      },
+      {
+        "ders": "Matematik",
+        "soruSayisi": 20,
+        "dogru": 11,
+        "yanlis": 8,
+        "bos": 1,
+        "net": 8.33
+      },
+      {
+        "ders": "Fen\tBilimleri",
+        "soruSayisi": 20,
+        "dogru": 15,
+        "yanlis": 5,
+        "bos": 0,
+        "net": 13.33
+      },
+      {
+        "ders": "Sosyal\tBilgiler",
+        "soruSayisi": 10,
+        "dogru": 7,
+        "yanlis": 3,
+        "bos": 0,
+        "net": 6.0
+      },
+      {
+        "ders": "İngilizce",
+        "soruSayisi": 10,
+        "dogru": 10,
+        "yanlis": 0,
+        "bos": 0,
+        "net": 10.0
+      },
+      {
+        "ders": "Din Kültürü",
+        "soruSayisi": 10,
+        "dogru": 9,
+        "yanlis": 1,
+        "bos": 0,
+        "net": 8.67
+      }
+    ],
+    "konular": [
+      {
+        "konu": "Matematik",
+        "soruSayisi": 20,
+        "dogru": 11,
+        "yanlis": 8,
+        "bos": 1,
+        "basariYuzdesi": 8.33
+      },
+      {
+        "konu": "İngilizce",
+        "soruSayisi": 10,
+        "dogru": 10,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 10.0
+      },
+      {
+        "konu": "Yıldızlar",
+        "soruSayisi": 6,
+        "dogru": 5,
+        "yanlis": 1,
+        "bos": 0,
+        "basariYuzdesi": 83.33
+      },
+      {
+        "konu": "Medya",
+        "soruSayisi": 2,
+        "dogru": 1,
+        "yanlis": 1,
+        "bos": 0,
+        "basariYuzdesi": 50.0
+      },
+      {
+        "konu": "Fiiller",
+        "soruSayisi": 2,
+        "dogru": 2,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      }
+    ]
+  },
+  {
+    "sinavAdi": "KIVANÇ UTKU HALİLOĞLU - Sınav Karnesi - 7. Sınıf SDS - 4 (2025 - 2026)",
+    "dersler": [
+      {
+        "ders": "Türkçe",
+        "soruSayisi": 20,
+        "dogru": 16,
+        "yanlis": 2,
+        "bos": 2,
+        "net": 15.33
+      },
+      {
+        "ders": "Matematik",
+        "soruSayisi": 20,
+        "dogru": 9,
+        "yanlis": 8,
+        "bos": 3,
+        "net": 6.33
+      },
+      {
+        "ders": "Fen\tBilimleri",
+        "soruSayisi": 20,
+        "dogru": 16,
+        "yanlis": 4,
+        "bos": 0,
+        "net": 14.67
+      },
+      {
+        "ders": "Sosyal\tBilgiler",
+        "soruSayisi": 10,
+        "dogru": 8,
+        "yanlis": 1,
+        "bos": 1,
+        "net": 7.67
+      },
+      {
+        "ders": "İngilizce",
+        "soruSayisi": 10,
+        "dogru": 10,
+        "yanlis": 0,
+        "bos": 0,
+        "net": 10.0
+      },
+      {
+        "ders": "Din Kültürü",
+        "soruSayisi": 10,
+        "dogru": 8,
+        "yanlis": 2,
+        "bos": 0,
+        "net": 7.33
+      }
+    ],
+    "konular": [
+      {
+        "konu": "Matematik",
+        "soruSayisi": 20,
+        "dogru": 9,
+        "yanlis": 8,
+        "bos": 3,
+        "basariYuzdesi": 6.33
+      },
+      {
+        "konu": "İngilizce",
+        "soruSayisi": 10,
+        "dogru": 10,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 10.0
+      },
+      {
+        "konu": "Biographies",
+        "soruSayisi": 2,
+        "dogru": 2,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      },
+      {
+        "konu": "Sports",
+        "soruSayisi": 3,
+        "dogru": 3,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      },
+      {
+        "konu": "Television",
+        "soruSayisi": 6,
+        "dogru": 6,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      },
+      {
+        "konu": "Fiiller",
+        "soruSayisi": 3,
+        "dogru": 2,
+        "yanlis": 0,
+        "bos": 1,
+        "basariYuzdesi": 66.67
+      },
+      {
+        "konu": "Medya",
+        "soruSayisi": 1,
+        "dogru": 0,
+        "yanlis": 1,
+        "bos": 0,
+        "basariYuzdesi": 0.0
+      },
+      {
+        "konu": "Hücre",
+        "soruSayisi": 2,
+        "dogru": 1,
+        "yanlis": 1,
+        "bos": 0,
+        "basariYuzdesi": 50.0
+      },
+      {
+        "konu": "Karışımlar",
+        "soruSayisi": 3,
+        "dogru": 2,
+        "yanlis": 1,
+        "bos": 0,
+        "basariYuzdesi": 66.67
+      },
+      {
+        "konu": "Mayoz",
+        "soruSayisi": 2,
+        "dogru": 2,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      },
+      {
+        "konu": "Mitoz",
+        "soruSayisi": 2,
+        "dogru": 2,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      },
+      {
+        "konu": "Yıldızlar",
+        "soruSayisi": 1,
+        "dogru": 1,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      }
+    ]
+  },
+  {
+    "sinavAdi": "KIVANÇ UTKU HALİLOĞLU - Sınav Karnesi - 7. Sınıf SDS - 1 (2025 - 2026)",
+    "dersler": [
+      {
+        "ders": "Türkçe",
+        "soruSayisi": 20,
+        "dogru": 16,
+        "yanlis": 4,
+        "bos": 0,
+        "net": 14.67
+      },
+      {
+        "ders": "Matematik",
+        "soruSayisi": 20,
+        "dogru": 14,
+        "yanlis": 6,
+        "bos": 0,
+        "net": 12.0
+      },
+      {
+        "ders": "Fen\tBilimleri",
+        "soruSayisi": 20,
+        "dogru": 16,
+        "yanlis": 4,
+        "bos": 0,
+        "net": 14.67
+      },
+      {
+        "ders": "Sosyal\tBilgiler",
+        "soruSayisi": 10,
+        "dogru": 10,
+        "yanlis": 0,
+        "bos": 0,
+        "net": 10.0
+      },
+      {
+        "ders": "İngilizce",
+        "soruSayisi": 10,
+        "dogru": 10,
+        "yanlis": 0,
+        "bos": 0,
+        "net": 10.0
+      },
+      {
+        "ders": "Din Kültürü",
+        "soruSayisi": 10,
+        "dogru": 6,
+        "yanlis": 4,
+        "bos": 0,
+        "net": 4.67
+      }
+    ],
+    "konular": [
+      {
+        "konu": "Matematik",
+        "soruSayisi": 20,
+        "dogru": 14,
+        "yanlis": 6,
+        "bos": 0,
+        "basariYuzdesi": 12.0
+      },
+      {
+        "konu": "İngilizce",
+        "soruSayisi": 10,
+        "dogru": 10,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 10.0
+      },
+      {
+        "konu": "Medya",
+        "soruSayisi": 2,
+        "dogru": 2,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      },
+      {
+        "konu": "Yıldızlar",
+        "soruSayisi": 7,
+        "dogru": 6,
+        "yanlis": 1,
+        "bos": 0,
+        "basariYuzdesi": 85.71
+      },
+      {
+        "konu": "Fiiller",
+        "soruSayisi": 3,
+        "dogru": 2,
+        "yanlis": 1,
+        "bos": 0,
+        "basariYuzdesi": 66.67
+      }
+    ]
+  },
+  {
+    "sinavAdi": "KIVANÇ UTKU HALİLOĞLU - Sınav Karnesi - 7.SINIF NFT-2",
+    "dersler": [
+      {
+        "ders": "Türkçe",
+        "soruSayisi": 20,
+        "dogru": 12,
+        "yanlis": 7,
+        "bos": 1,
+        "net": 9.67
+      },
+      {
+        "ders": "Matematik",
+        "soruSayisi": 20,
+        "dogru": 12,
+        "yanlis": 8,
+        "bos": 0,
+        "net": 9.33
+      },
+      {
+        "ders": "Fen\tBilimleri",
+        "soruSayisi": 20,
+        "dogru": 12,
+        "yanlis": 7,
+        "bos": 1,
+        "net": 9.67
+      },
+      {
+        "ders": "Sosyal\tBilgiler",
+        "soruSayisi": 10,
+        "dogru": 8,
+        "yanlis": 1,
+        "bos": 1,
+        "net": 7.67
+      },
+      {
+        "ders": "İngilizce",
+        "soruSayisi": 10,
+        "dogru": 10,
+        "yanlis": 0,
+        "bos": 0,
+        "net": 10.0
+      },
+      {
+        "ders": "Din Kültürü",
+        "soruSayisi": 10,
+        "dogru": 7,
+        "yanlis": 1,
+        "bos": 2,
+        "net": 6.67
+      }
+    ],
+    "konular": [
+      {
+        "konu": "Matematik",
+        "soruSayisi": 20,
+        "dogru": 12,
+        "yanlis": 8,
+        "bos": 0,
+        "basariYuzdesi": 9.33
+      },
+      {
+        "konu": "İngilizce",
+        "soruSayisi": 10,
+        "dogru": 10,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 10.0
+      },
+      {
+        "konu": "Sports",
+        "soruSayisi": 6,
+        "dogru": 6,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      },
+      {
+        "konu": "Medya",
+        "soruSayisi": 2,
+        "dogru": 2,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      },
+      {
+        "konu": "Hücre",
+        "soruSayisi": 8,
+        "dogru": 5,
+        "yanlis": 2,
+        "bos": 1,
+        "basariYuzdesi": 62.5
+      },
+      {
+        "konu": "Mayoz",
+        "soruSayisi": 4,
+        "dogru": 2,
+        "yanlis": 2,
+        "bos": 0,
+        "basariYuzdesi": 50.0
+      },
+      {
+        "konu": "Mitoz",
+        "soruSayisi": 3,
+        "dogru": 2,
+        "yanlis": 1,
+        "bos": 0,
+        "basariYuzdesi": 66.67
+      },
+      {
+        "konu": "Fiiller",
+        "soruSayisi": 1,
+        "dogru": 1,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      }
+    ]
+  },
+  {
+    "sinavAdi": "KIVANÇ UTKU HALİLOĞLU - Sınav Karnesi - 7.SINIF NFT-1",
+    "dersler": [
+      {
+        "ders": "Türkçe",
+        "soruSayisi": 20,
+        "dogru": 14,
+        "yanlis": 6,
+        "bos": 0,
+        "net": 12.0
+      },
+      {
+        "ders": "Matematik",
+        "soruSayisi": 20,
+        "dogru": 17,
+        "yanlis": 3,
+        "bos": 0,
+        "net": 16.0
+      },
+      {
+        "ders": "Fen\tBilimleri",
+        "soruSayisi": 20,
+        "dogru": 10,
+        "yanlis": 10,
+        "bos": 0,
+        "net": 6.67
+      },
+      {
+        "ders": "Sosyal\tBilgiler",
+        "soruSayisi": 10,
+        "dogru": 8,
+        "yanlis": 2,
+        "bos": 0,
+        "net": 7.33
+      },
+      {
+        "ders": "İngilizce",
+        "soruSayisi": 10,
+        "dogru": 10,
+        "yanlis": 0,
+        "bos": 0,
+        "net": 10.0
+      },
+      {
+        "ders": "Din Kültürü",
+        "soruSayisi": 10,
+        "dogru": 7,
+        "yanlis": 3,
+        "bos": 0,
+        "net": 6.0
+      }
+    ],
+    "konular": [
+      {
+        "konu": "Matematik",
+        "soruSayisi": 20,
+        "dogru": 17,
+        "yanlis": 3,
+        "bos": 0,
+        "basariYuzdesi": 16.0
+      },
+      {
+        "konu": "İngilizce",
+        "soruSayisi": 10,
+        "dogru": 10,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 10.0
+      },
+      {
+        "konu": "Sports",
+        "soruSayisi": 2,
+        "dogru": 2,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      },
+      {
+        "konu": "Yıldızlar",
+        "soruSayisi": 6,
+        "dogru": 3,
+        "yanlis": 3,
+        "bos": 0,
+        "basariYuzdesi": 50.0
+      },
+      {
+        "konu": "Medya",
+        "soruSayisi": 2,
+        "dogru": 2,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      },
+      {
+        "konu": "Fiiller",
+        "soruSayisi": 2,
+        "dogru": 2,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      }
+    ]
+  },
+  {
+    "sinavAdi": "KIVANÇ UTKU HALİLOĞLU - Sınav Karnesi - 7.SINIF TG ÖZDEBİR GİS-2",
+    "dersler": [
+      {
+        "ders": "Türkçe",
+        "soruSayisi": 20,
+        "dogru": 11,
+        "yanlis": 7,
+        "bos": 2,
+        "net": 8.67
+      },
+      {
+        "ders": "Matematik",
+        "soruSayisi": 20,
+        "dogru": 10,
+        "yanlis": 6,
+        "bos": 4,
+        "net": 8.0
+      },
+      {
+        "ders": "Fen\tBilimleri",
+        "soruSayisi": 20,
+        "dogru": 9,
+        "yanlis": 7,
+        "bos": 4,
+        "net": 6.67
+      },
+      {
+        "ders": "Sosyal\tBilgiler",
+        "soruSayisi": 10,
+        "dogru": 5,
+        "yanlis": 3,
+        "bos": 2,
+        "net": 4.0
+      },
+      {
+        "ders": "İngilizce",
+        "soruSayisi": 10,
+        "dogru": 10,
+        "yanlis": 0,
+        "bos": 0,
+        "net": 10.0
+      },
+      {
+        "ders": "Din Kültürü",
+        "soruSayisi": 10,
+        "dogru": 4,
+        "yanlis": 4,
+        "bos": 2,
+        "net": 2.67
+      }
+    ],
+    "konular": [
+      {
+        "konu": "Matematik",
+        "soruSayisi": 20,
+        "dogru": 10,
+        "yanlis": 6,
+        "bos": 4,
+        "basariYuzdesi": 8.0
+      },
+      {
+        "konu": "İngilizce",
+        "soruSayisi": 10,
+        "dogru": 10,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 10.0
+      },
+      {
+        "konu": "Biographies",
+        "soruSayisi": 3,
+        "dogru": 3,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      },
+      {
+        "konu": "Sports",
+        "soruSayisi": 3,
+        "dogru": 3,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      },
+      {
+        "konu": "Fiiller",
+        "soruSayisi": 2,
+        "dogru": 2,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      },
+      {
+        "konu": "Mayoz",
+        "soruSayisi": 3,
+        "dogru": 0,
+        "yanlis": 2,
+        "bos": 1,
+        "basariYuzdesi": 0.0
+      },
+      {
+        "konu": "Mitoz",
+        "soruSayisi": 4,
+        "dogru": 2,
+        "yanlis": 1,
+        "bos": 1,
+        "basariYuzdesi": 50.0
+      },
+      {
+        "konu": "Yıldızlar",
+        "soruSayisi": 2,
+        "dogru": 2,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      },
+      {
+        "konu": "Medya",
+        "soruSayisi": 1,
+        "dogru": 1,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      }
+    ]
+  },
+  {
+    "sinavAdi": "KIVANÇ UTKU HALİLOĞLU - Sınav Karnesi - 7. Sınıf SDS - 2 (2025 - 2026)",
+    "dersler": [
+      {
+        "ders": "Türkçe",
+        "soruSayisi": 20,
+        "dogru": 13,
+        "yanlis": 7,
+        "bos": 0,
+        "net": 10.67
+      },
+      {
+        "ders": "Matematik",
+        "soruSayisi": 20,
+        "dogru": 12,
+        "yanlis": 8,
+        "bos": 0,
+        "net": 9.33
+      },
+      {
+        "ders": "Fen\tBilimleri",
+        "soruSayisi": 20,
+        "dogru": 15,
+        "yanlis": 5,
+        "bos": 0,
+        "net": 13.33
+      },
+      {
+        "ders": "Sosyal\tBilgiler",
+        "soruSayisi": 10,
+        "dogru": 10,
+        "yanlis": 0,
+        "bos": 0,
+        "net": 10.0
+      },
+      {
+        "ders": "İngilizce",
+        "soruSayisi": 10,
+        "dogru": 10,
+        "yanlis": 0,
+        "bos": 0,
+        "net": 10.0
+      },
+      {
+        "ders": "Din Kültürü",
+        "soruSayisi": 10,
+        "dogru": 9,
+        "yanlis": 1,
+        "bos": 0,
+        "net": 8.67
+      }
+    ],
+    "konular": [
+      {
+        "konu": "Matematik",
+        "soruSayisi": 20,
+        "dogru": 12,
+        "yanlis": 8,
+        "bos": 0,
+        "basariYuzdesi": 9.33
+      },
+      {
+        "konu": "İngilizce",
+        "soruSayisi": 10,
+        "dogru": 10,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 10.0
+      },
+      {
+        "konu": "İPTAL",
+        "soruSayisi": 0,
+        "dogru": 25,
+        "yanlis": 50,
+        "bos": 75,
+        "basariYuzdesi": 100.0
+      },
+      {
+        "konu": "Sports",
+        "soruSayisi": 7,
+        "dogru": 7,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      },
+      {
+        "konu": "Medya",
+        "soruSayisi": 2,
+        "dogru": 2,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      },
+      {
+        "konu": "Fiiller",
+        "soruSayisi": 2,
+        "dogru": 2,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      },
+      {
+        "konu": "Hücre",
+        "soruSayisi": 4,
+        "dogru": 2,
+        "yanlis": 2,
+        "bos": 0,
+        "basariYuzdesi": 50.0
+      },
+      {
+        "konu": "Mayoz",
+        "soruSayisi": 5,
+        "dogru": 3,
+        "yanlis": 2,
+        "bos": 0,
+        "basariYuzdesi": 60.0
+      },
+      {
+        "konu": "Mitoz",
+        "soruSayisi": 4,
+        "dogru": 3,
+        "yanlis": 1,
+        "bos": 0,
+        "basariYuzdesi": 75.0
+      },
+      {
+        "konu": "Yıldızlar",
+        "soruSayisi": 2,
+        "dogru": 2,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      }
+    ]
+  },
+  {
+    "sinavAdi": "KIVANÇ UTKU HALİLOĞLU - Sınav Karnesi - 7. Sınıf SDS - 3 (2025 - 2026)",
+    "dersler": [
+      {
+        "ders": "Türkçe",
+        "soruSayisi": 20,
+        "dogru": 16,
+        "yanlis": 3,
+        "bos": 1,
+        "net": 15.0
+      },
+      {
+        "ders": "Matematik",
+        "soruSayisi": 20,
+        "dogru": 12,
+        "yanlis": 7,
+        "bos": 1,
+        "net": 9.67
+      },
+      {
+        "ders": "Fen\tBilimleri",
+        "soruSayisi": 20,
+        "dogru": 16,
+        "yanlis": 4,
+        "bos": 0,
+        "net": 14.67
+      },
+      {
+        "ders": "Sosyal\tBilgiler",
+        "soruSayisi": 10,
+        "dogru": 4,
+        "yanlis": 5,
+        "bos": 1,
+        "net": 2.33
+      },
+      {
+        "ders": "İngilizce",
+        "soruSayisi": 10,
+        "dogru": 10,
+        "yanlis": 0,
+        "bos": 0,
+        "net": 10.0
+      },
+      {
+        "ders": "Din Kültürü",
+        "soruSayisi": 10,
+        "dogru": 6,
+        "yanlis": 2,
+        "bos": 2,
+        "net": 5.33
+      }
+    ],
+    "konular": [
+      {
+        "konu": "Matematik",
+        "soruSayisi": 20,
+        "dogru": 12,
+        "yanlis": 7,
+        "bos": 1,
+        "basariYuzdesi": 9.67
+      },
+      {
+        "konu": "İngilizce",
+        "soruSayisi": 10,
+        "dogru": 10,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 10.0
+      },
+      {
+        "konu": "Biographies",
+        "soruSayisi": 4,
+        "dogru": 4,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      },
+      {
+        "konu": "Sports",
+        "soruSayisi": 1,
+        "dogru": 1,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      },
+      {
+        "konu": "Fiiller",
+        "soruSayisi": 3,
+        "dogru": 1,
+        "yanlis": 1,
+        "bos": 1,
+        "basariYuzdesi": 33.33
+      },
+      {
+        "konu": "Mayoz",
+        "soruSayisi": 2,
+        "dogru": 1,
+        "yanlis": 1,
+        "bos": 0,
+        "basariYuzdesi": 50.0
+      },
+      {
+        "konu": "Yıldızlar",
+        "soruSayisi": 1,
+        "dogru": 1,
+        "yanlis": 0,
+        "bos": 0,
+        "basariYuzdesi": 100.0
+      }
+    ]
+  }
+]

@@ -13,9 +13,10 @@ import { Countdown } from './Countdown';
 interface DashboardProps {
     currentUser: User;
     onLogout: () => void;
+    onNavigateToKarneler: () => void;
 }
 
-export function Dashboard({ currentUser, onLogout }: DashboardProps) {
+export function Dashboard({ currentUser, onLogout, onNavigateToKarneler }: DashboardProps) {
     const [selectedSubject, setSelectedSubject] = useState('');
     const [questionCount, setQuestionCount] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -188,9 +189,14 @@ export function Dashboard({ currentUser, onLogout }: DashboardProps) {
                     </div>
                 </div>
 
-                <Button variant="outline" size="sm" onClick={onLogout} className="whitespace-nowrap">
-                    Çıkış Yap
-                </Button>
+                <div className="flex gap-4">
+                    <Button variant="outline" size="sm" onClick={onNavigateToKarneler} className="whitespace-nowrap bg-indigo-600 hover:bg-indigo-500 border-indigo-400 text-white flex items-center gap-2">
+                        <Award className="w-4 h-4" /> Karneler
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={onLogout} className="whitespace-nowrap">
+                        Çıkış Yap
+                    </Button>
+                </div>
             </div>
 
 

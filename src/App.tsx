@@ -5,6 +5,7 @@ import { type User } from './types';
 import { USERS } from './data/constants';
 import { Dashboard } from './components/Dashboard';
 import { LoginPage } from './pages/LoginPage';
+import { KarnelerPage } from './pages/KarnelerPage';
 import { Loader2 } from 'lucide-react';
 
 function App() {
@@ -45,6 +46,8 @@ function App() {
     };
   }, []);
 
+  const [currentView, setCurrentView] = useState<'dashboard' | 'karneler'>('dashboard');
+
   const handleLogout = async () => {
     await signOut(auth);
     // State update handled by onAuthStateChanged
@@ -59,7 +62,10 @@ function App() {
   }
 
   if (currentUser) {
-    return <Dashboard currentUser={currentUser} onLogout={handleLogout} />;
+    if (currentView === 'karneler') {
+      return <KarnelerPage currentUser={currentUser} onBack={() => setCurrentView('dashboard')} />;
+    }
+    return <Dashboard currentUser={currentUser} onLogout={handleLogout} onNavigateToKarneler={() => setCurrentView('karneler')} />;
   }
 
   return <LoginPage />;
