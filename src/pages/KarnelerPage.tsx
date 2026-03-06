@@ -64,6 +64,9 @@ export function KarnelerPage({ currentUser, onBack }: KarnelerPageProps) {
 
         const zayifKritikler = enZayifKonular.filter(k => k.basari <= 50);
 
+        const totalSinav = karnelerData.length;
+        const statsOrta = totalSinav > 0 ? (totalNet / totalSinav) : 0;
+
         // Akıllı paragraf analiz raporu üretme
         let analizRaporu = "";
 
