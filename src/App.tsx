@@ -48,8 +48,25 @@ function App() {
 
   const [currentView, setCurrentView] = useState<'dashboard' | 'karneler'>('dashboard');
 
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (hash === 'karneler') {
+        setCurrentView('karneler');
+      } else {
+        setCurrentView('dashboard');
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    handleHashChange(); // initial execution runs on load
+
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
   const handleLogout = async () => {
     await signOut(auth);
+    window.location.hash = '';
     // State update handled by onAuthStateChanged
   };
 
@@ -63,9 +80,9 @@ function App() {
 
   if (currentUser) {
     if (currentView === 'karneler') {
-      return <KarnelerPage currentUser={currentUser} onBack={() => setCurrentView('dashboard')} />;
+      return <KarnelerPage currentUser={currentUser} onBack={() => { window.location.hash = 'dashboard'; }} />;
     }
-    return <Dashboard currentUser={currentUser} onLogout={handleLogout} onNavigateToKarneler={() => setCurrentView('karneler')} />;
+    return <Dashboard currentUser={currentUser} onLogout={handleLogout} onNavigateToKarneler={() => { window.location.hash = 'karneler'; }} />;
   }
 
   return <LoginPage />;

@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
 import { type User } from '../types';
 import { Button } from '../components/ui/Button';
-import { ArrowLeft, BookOpen, Star, AlertTriangle, PieChart } from 'lucide-react';
+import { ArrowLeft, BookOpen, Star, AlertTriangle, PieChart, TrendingUp } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import karnelerData from '../data/karneler.json';
 
 interface KarnelerPageProps {
@@ -111,6 +112,19 @@ export function KarnelerPage({ currentUser, onBack }: KarnelerPageProps) {
         };
     }, []);
 
+    const chartData = useMemo(() => {
+        return karnelerData.map(karne => {
+            const totalNet = karne.dersler.reduce((acc, d) => acc + d.net, 0);
+            // Sınav adını daha kısa göstermek için formatla
+            const kisaAd = karne.sinavAdi.split('-').pop()?.trim() || karne.sinavAdi;
+            return {
+                name: kisaAd,
+                tarih: (karne as any).tarih || 'Tarih Yok',
+                net: Number(totalNet.toFixed(2))
+            };
+        });
+    }, []);
+
     const selectedKarne = karnelerData.find(k => k.sinavAdi === selectedSinav);
 
     return (
@@ -144,6 +158,11 @@ export function KarnelerPage({ currentUser, onBack }: KarnelerPageProps) {
                                     <div className="font-semibold text-sm truncate" title={karne.sinavAdi}>
                                         {karne.sinavAdi}
                                     </div>
+                                    {(karne as any).tarih && (
+                                        <div className={`text-xs mt-1 ${selectedSinav === karne.sinavAdi ? 'text-blue-100' : 'text-slate-400'}`}>
+                                            {(karne as any).tarih}
+                                        </div>
+                                    )}
                                 </button>
                             ))}
                             {/* Genel Analiz Butonu */}
@@ -240,13 +259,65 @@ export function KarnelerPage({ currentUser, onBack }: KarnelerPageProps) {
                                     </div>
                                 </div>
                             </div>
+
+                            {/* Gelişim Grafiği (Recharts) */}
+                            <div className="bg-gray-800 p-6 rounded-2xl border border-gray-700 shadow-xl mt-6">
+                                <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2 border-b border-gray-700 pb-4">
+                                    <TrendingUp className="text-blue-400 w-6 h-6" /> Sınav Net İlerleme Grafiği
+                                </h3>
+                                <div className="h-80 w-full text-xs sm:text-sm">
+                                    <ResponsiveContainer width="100%" height="100%">
+                                        <LineChart
+                                            data={chartData}
+                                            margin={{ top: 10, right: 30, left: 0, bottom: 20 }}
+                                        >
+                                            <CartesianGrid strokeDasharray="3 3" stroke="#4a5568" />
+                                            <XAxis
+                                                dataKey="name"
+                                                stroke="#a0aec0"
+                                                tick={{ fill: '#a0aec0' }}
+                                                angle={-45}
+                                                textAnchor="end"
+                                                height={60}
+                                            />
+                                            <YAxis stroke="#a0aec0" tick={{ fill: '#a0aec0' }} domain={['auto', 'auto']} />
+                                            <Tooltip
+                                                contentStyle={{ backgroundColor: '#1e293b', borderColor: '#334155', color: 'white' }}
+                                                itemStyle={{ color: '#60a5fa' }}
+                                            />
+                                            <Line
+                                                type="monotone"
+                                                dataKey="net"
+                                                stroke="#3b82f6"
+                                                strokeWidth={3}
+                                                dot={{ r: 6, fill: '#3b82f6', stroke: '#1e3a8a', strokeWidth: 2 }}
+                                                activeDot={{ r: 8, fill: '#60a5fa' }}
+                                            />
+                                        </LineChart>
+                                    </ResponsiveContainer>
+                                </div>
+                            </div>
+
                         </div>
                     ) : selectedKarne ? (
                         // TEKİL SINAV GÖRÜNÜMÜ
                         <div className="bg-gray-800 p-6 rounded-2xl border border-gray-700 shadow-xl animate-fadeIn">
-                            <h2 className="text-2xl font-bold text-white mb-6 border-b border-gray-700 pb-4">
-                                {selectedKarne.sinavAdi}
-                            </h2>
+                            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 border-b border-gray-700 pb-4 gap-4">
+                                <div>
+                                    <h2 className="text-2xl font-bold text-white leading-tight">
+                                        {selectedKarne.sinavAdi}
+                                    </h2>
+                                    {(selectedKarne as any).tarih && (
+                                        <p className="text-gray-400 mt-1">Sınav Tarihi: {(selectedKarne as any).tarih}</p>
+                                    )}
+                                </div>
+                                <Button
+                                    onClick={() => setSelectedSinav(null)}
+                                    className="bg-indigo-600 hover:bg-indigo-500 flex items-center gap-2 whitespace-nowrap"
+                                >
+                                    <PieChart className="w-4 h-4" /> Genel Analize Dön
+                                </Button>
+                            </div>
 
                             <h3 className="text-lg font-semibold text-gray-300 mb-4">Ders Bazlı Netler</h3>
                             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
