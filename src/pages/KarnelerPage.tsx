@@ -62,11 +62,49 @@ export function KarnelerPage({ currentUser, onBack }: KarnelerPageProps) {
         const enIyiKonular = konular.slice(0, 3);
         const enZayifKonular = [...konular].reverse().slice(0, 3); // Sondan 3
 
+        const zayifKritikler = enZayifKonular.filter(k => k.basari <= 50);
+
+        // Akıllı paragraf analiz raporu üretme
+        let analizRaporu = "";
+
+        if (totalSinav === 0) {
+            analizRaporu = "Henüz sistemde analiz edilebilecek bir karne bulunmuyor. Dünyayı kurtarmak için önce biraz pratik yapmalıyız!";
+        } else {
+            analizRaporu += `${totalSinav} deneme sınavının sonuçlarına baktığımda genel ortalama netin ${statsOrta.toFixed(1)} civarında. `;
+
+            if (enIyiKonular.length > 0) {
+                const iyiIsimler = enIyiKonular.map(k => k.isim);
+                analizRaporu += `Özellikle ${iyiIsimler.join(', ')} konularında süper bir iş çıkarıyorsun, tebrikler! `;
+            }
+
+            if (zayifKritikler.length > 0) {
+                const zayifMetinleri = zayifKritikler.map(k => `${k.isim} (Başarı: %${k.basari.toFixed(0)})`);
+                analizRaporu += `Ancak bazı konular biraz daha desteğe ihtiyaç duyuyor gibi görünüyor. Örnek olarak: ${zayifMetinleri.join(', ')}. `;
+
+                // Bazı spesifik konularda (Mayoz, vs) özel tavsiyeler eklenebilir.
+                const kritikKonular = zayifKritikler.map(k => k.isim.toLowerCase());
+                if (kritikKonular.some(k => k.includes('rasyonel'))) {
+                    analizRaporu += "Rasyonel sayılarda eksiklik görünüyor, bu konu üzerine bol pratik yapmalısın. ";
+                }
+                if (kritikKonular.some(k => k.includes('mayoz'))) {
+                    analizRaporu += "Mayoz konusu oldukça kritik, hücre bölünmeleri başlığına tekrar bir göz atmanı tavsiye ederim. ";
+                }
+                if (kritikKonular.some(k => k.includes('matematik') || k.includes('işlemler'))) {
+                    analizRaporu += "Matematikte bazı eksiklikler var gibi; bu alanlarda özellikle geçmiş sorulardaki hataları analiz etmek çok faydalı olacaktır. ";
+                }
+
+                analizRaporu += "Eğer bu konularda pratiklerini artırırsan, genel ortalamanın harika bir seviyeye çıkacağına eminim!";
+            } else {
+                analizRaporu += "Şu an için belirgin bir zayıf noktan görünmüyor. Dünyayı kurtarmaya aynı tempoyla devam!";
+            }
+        }
+
         return {
-            totalSinav: karnelerData.length,
-            ortalamaNet: totalNet / karnelerData.length,
+            totalSinav,
+            ortalamaNet: statsOrta,
             enIyiKonular,
-            enZayifKonular
+            enZayifKonular,
+            analizRaporu
         };
     }, []);
 
@@ -96,8 +134,8 @@ export function KarnelerPage({ currentUser, onBack }: KarnelerPageProps) {
                                     key={idx}
                                     onClick={() => setSelectedSinav(karne.sinavAdi)}
                                     className={`w-full text-left p-3 rounded-lg transition-all duration-200 ${selectedSinav === karne.sinavAdi
-                                            ? 'bg-fenerbahce-blue border-fenerbahce-yellow border-2 text-white shadow-lg scale-105'
-                                            : 'bg-gray-700 hover:bg-gray-600 border border-transparent'
+                                        ? 'bg-fenerbahce-blue border-fenerbahce-yellow border-2 text-white shadow-lg scale-105'
+                                        : 'bg-gray-700 hover:bg-gray-600 border border-transparent'
                                         }`}
                                 >
                                     <div className="font-semibold text-sm truncate" title={karne.sinavAdi}>
@@ -109,8 +147,8 @@ export function KarnelerPage({ currentUser, onBack }: KarnelerPageProps) {
                             <button
                                 onClick={() => setSelectedSinav(null)}
                                 className={`w-full text-left p-4 rounded-lg transition-all duration-200 mt-4 border-2 ${selectedSinav === null
-                                        ? 'bg-gradient-to-r from-purple-600 to-blue-600 border-white text-white shadow-xl'
-                                        : 'bg-gray-800 hover:bg-gray-700 border-purple-500'
+                                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 border-white text-white shadow-xl'
+                                    : 'bg-gray-800 hover:bg-gray-700 border-purple-500'
                                     }`}
                             >
                                 <div className="font-bold flex items-center gap-2 justify-center">
@@ -133,10 +171,28 @@ export function KarnelerPage({ currentUser, onBack }: KarnelerPageProps) {
                                     <div className="text-blue-200 text-sm font-bold tracking-wider mb-2 uppercase">Toplam Çözülen Deneme</div>
                                     <div className="text-5xl font-black text-white">{stats.totalSinav}</div>
                                 </div>
-                                <div className="bg-gradient-to-br from-purple-900 to-slate-800 p-6 rounded-2xl border border-purple-500/30 flex flex-col items-center justify-center text-center">
-                                    <div className="text-purple-200 text-sm font-bold tracking-wider mb-2 uppercase">Ortalama Net</div>
-                                    <div className="text-5xl font-black text-white">{stats.ortalamaNet.toFixed(1)}</div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-800 p-6 rounded-xl border border-slate-700">
+                                    <div className="flex flex-col space-y-2">
+                                        <span className="text-slate-400 text-sm">Değerlendirilen Sınav</span>
+                                        <span className="text-3xl font-bold text-white">{stats.totalSinav}</span>
+                                    </div>
+                                    <div className="flex flex-col space-y-2">
+                                        <span className="text-slate-400 text-sm">Ortalama Net (Tüm Sınavlar)</span>
+                                        <span className="text-3xl font-bold text-indigo-400">{stats.ortalamaNet.toFixed(2)}</span>
+                                    </div>
                                 </div>
+                            </div>
+
+                            {/* Akıllı Analiz Paragrafı Eklentisi */}
+                            <div className="bg-indigo-900/40 p-6 rounded-xl border border-indigo-700/50 mt-6 relative overflow-hidden">
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
+                                <h3 className="text-xl font-bold text-indigo-300 mb-3 flex items-center gap-2">
+                                    <Star className="w-5 h-5 text-fenerbahce-yellow" />
+                                    SoruSayım Yapay Zeka Analizi
+                                </h3>
+                                <p className="text-slate-300 leading-relaxed text-lg italic">
+                                    "{stats.analizRaporu}"
+                                </p>
                             </div>
 
                             {/* Güçlü ve Zayıf Konular */}
@@ -212,8 +268,8 @@ export function KarnelerPage({ currentUser, onBack }: KarnelerPageProps) {
                                                 <div className="flex items-center gap-4 text-sm">
                                                     <span className="text-gray-400">{konu.soruSayisi} Soru</span>
                                                     <div className={`px-2 py-1 rounded font-bold ${konu.basariYuzdesi >= 80 ? 'bg-green-500/20 text-green-400' :
-                                                            konu.basariYuzdesi >= 50 ? 'bg-yellow-500/20 text-yellow-400' :
-                                                                'bg-red-500/20 text-red-400'
+                                                        konu.basariYuzdesi >= 50 ? 'bg-yellow-500/20 text-yellow-400' :
+                                                            'bg-red-500/20 text-red-400'
                                                         }`}>
                                                         %{konu.basariYuzdesi}
                                                     </div>
