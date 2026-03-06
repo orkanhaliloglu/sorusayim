@@ -134,7 +134,8 @@ export function KarnelerPage({ currentUser, onBack }: KarnelerPageProps) {
             return {
                 name: kisaAd,
                 tarih: (karne as any).tarih || 'Tarih Yok',
-                net: Number(totalNet.toFixed(2))
+                net: Number(totalNet.toFixed(2)),
+                puan: (karne as any).puan || null
             };
         });
     }, []);
@@ -294,14 +295,40 @@ export function KarnelerPage({ currentUser, onBack }: KarnelerPageProps) {
                                                 textAnchor="end"
                                                 height={60}
                                             />
-                                            <YAxis stroke="#a0aec0" tick={{ fill: '#a0aec0' }} domain={['auto', 'auto']} />
+                                            {/* Çift Eksen: Sol Eksen (Puan), Sağ Eksen (Net) */}
+                                            <YAxis
+                                                yAxisId="left"
+                                                orientation="left"
+                                                stroke="#f59e0b" /* Sarımsı */
+                                                tick={{ fill: '#f59e0b' }}
+                                                domain={['auto', 'auto']}
+                                            />
+                                            <YAxis
+                                                yAxisId="right"
+                                                orientation="right"
+                                                stroke="#60a5fa" /* Mavimsi */
+                                                tick={{ fill: '#60a5fa' }}
+                                                domain={['auto', 'auto']}
+                                            />
                                             <Tooltip
                                                 contentStyle={{ backgroundColor: '#1e293b', borderColor: '#334155', color: 'white' }}
-                                                itemStyle={{ color: '#60a5fa' }}
+                                                itemStyle={{ color: '#fff' }}
                                             />
                                             <Line
+                                                yAxisId="left"
+                                                type="monotone"
+                                                dataKey="puan"
+                                                name="Sınav Puanı"
+                                                stroke="#f59e0b"
+                                                strokeWidth={3}
+                                                dot={{ r: 6, fill: '#f59e0b', stroke: '#78350f', strokeWidth: 2 }}
+                                                activeDot={{ r: 8, fill: '#fbbf24' }}
+                                            />
+                                            <Line
+                                                yAxisId="right"
                                                 type="monotone"
                                                 dataKey="net"
+                                                name="Toplam Net"
                                                 stroke="#3b82f6"
                                                 strokeWidth={3}
                                                 dot={{ r: 6, fill: '#3b82f6', stroke: '#1e3a8a', strokeWidth: 2 }}
