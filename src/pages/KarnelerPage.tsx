@@ -74,16 +74,30 @@ export function KarnelerPage({ currentUser, onBack }: KarnelerPageProps) {
         if (totalSinav === 0) {
             analizRaporu = "Henüz sistemde analiz edilebilecek bir karne bulunmuyor. Dünyayı kurtarmak için önce biraz pratik yapmalıyız!";
         } else {
+            // Son sınavı değerlendir
+            const sonSinav = karnelerData[karnelerData.length - 1];
+            const sonSinavNet = sonSinav.dersler.reduce((acc, d) => acc + d.net, 0);
+            const sonSinavKisaAd = sonSinav.sinavAdi.split('-').pop()?.trim() || sonSinav.sinavAdi;
+
             analizRaporu += `${totalSinav} deneme sınavının sonuçlarına baktığımda genel ortalama netin ${statsOrta.toFixed(1)} civarında. `;
+
+            // Son sınav analizi
+            if (sonSinavNet > statsOrta) {
+                analizRaporu += `Dikkatimi çeken harika bir detay var: Son girdiğin "${sonSinavKisaAd}" sınavında ${sonSinavNet.toFixed(1)} net yaparak genel ortalamanın üzerine çıkmışsın, yükseliş trendin harika! 💪 `;
+            } else if (sonSinavNet < statsOrta - 5) {
+                analizRaporu += `Ancak son girdiğin "${sonSinavKisaAd}" sınavında ${sonSinavNet.toFixed(1)} net ile ortalamanın biraz altında kalmışsın. Moral bozmak yok, eksikleri tespit edip hızla toparlayabiliriz. ✨ `;
+            } else {
+                analizRaporu += `Son girdiğin "${sonSinavKisaAd}" sınavında ${sonSinavNet.toFixed(1)} net yaparak genel istikrarını korumuşsun. Stabil gidişat güzel ama hedefimiz daima daha yukarısı! 🚀 `;
+            }
 
             if (enIyiKonular.length > 0) {
                 const iyiIsimler = enIyiKonular.map(k => k.isim);
-                analizRaporu += `Özellikle ${iyiIsimler.join(', ')} konularında süper bir iş çıkarıyorsun, tebrikler! `;
+                analizRaporu += `Öte yandan ${iyiIsimler.join(', ')} ders veya konularında süper bir iş çıkarıyorsun, tebrikler. `;
             }
 
             if (zayifKritikler.length > 0) {
                 const zayifMetinleri = zayifKritikler.map(k => `${k.isim} (Başarı: %${k.basari.toFixed(0)})`);
-                analizRaporu += `Ancak bazı konular biraz daha desteğe ihtiyaç duyuyor gibi görünüyor. Örnek olarak: ${zayifMetinleri.join(', ')}. `;
+                analizRaporu += `Analizlerime göre biraz daha desteğe ihtiyaç duyan bazı konular var: ${zayifMetinleri.join(', ')}. `;
 
                 // Bazı spesifik konularda (Mayoz, vs) özel tavsiyeler eklenebilir.
                 const kritikKonular = zayifKritikler.map(k => k.isim.toLowerCase());
