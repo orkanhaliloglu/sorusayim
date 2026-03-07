@@ -77,7 +77,7 @@ export function KarnelerPage({ currentUser, onBack }: KarnelerPageProps) {
             // Son sınavı değerlendir
             const sonSinav = karnelerData[karnelerData.length - 1];
             const sonSinavNet = sonSinav.dersler.reduce((acc, d) => acc + d.net, 0);
-            const sonSinavKisaAd = sonSinav.sinavAdi.split('-').pop()?.trim() || sonSinav.sinavAdi;
+            const sonSinavKisaAd = sonSinav.sinavAdi.replace(/^.*?Sınav Karnesi\s*-\s*/i, '').trim() || sonSinav.sinavAdi;
 
             analizRaporu += `${totalSinav} deneme sınavının sonuçlarına baktığımda genel ortalama netin ${statsOrta.toFixed(1)} civarında. `;
 
@@ -130,7 +130,7 @@ export function KarnelerPage({ currentUser, onBack }: KarnelerPageProps) {
         return karnelerData.map(karne => {
             const totalNet = karne.dersler.reduce((acc, d) => acc + d.net, 0);
             // Sınav adını daha kısa göstermek için formatla
-            const kisaAd = karne.sinavAdi.split('-').pop()?.trim() || karne.sinavAdi;
+            const kisaAd = karne.sinavAdi.replace(/^.*?Sınav Karnesi\s*-\s*/i, '').trim() || karne.sinavAdi;
             return {
                 name: kisaAd,
                 tarih: (karne as any).tarih || 'Tarih Yok',
