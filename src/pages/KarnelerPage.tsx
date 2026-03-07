@@ -171,7 +171,7 @@ export function KarnelerPage({ currentUser, onBack }: KarnelerPageProps) {
                                         }`}
                                 >
                                     <div className="font-semibold text-sm truncate" title={karne.sinavAdi}>
-                                        {karne.sinavAdi}
+                                        {karne.sinavAdi.replace(/^.*?Sınav Karnesi\s*-\s*/i, '').trim() || karne.sinavAdi}
                                     </div>
                                     {(karne as any).tarih && (
                                         <div className={`text-xs mt-1 ${selectedSinav === karne.sinavAdi ? 'text-blue-100' : 'text-slate-400'}`}>
