@@ -77,7 +77,7 @@ export function KarnelerPage({ currentUser, onBack }: KarnelerPageProps) {
             // Son sınavı değerlendir
             const sonSinav = karnelerData[karnelerData.length - 1];
             const sonSinavNet = sonSinav.dersler.reduce((acc, d) => acc + d.net, 0);
-            const sonSinavKisaAd = sonSinav.sinavAdi.replace(/^.*?Sınav Karnesi\s*-\s*/i, '').trim() || sonSinav.sinavAdi;
+            const sonSinavKisaAd = sonSinav.sinavAdi.replace(/^.*?S[ıiIİ]nav Karnesi.*?-\s*/i, '').trim() || sonSinav.sinavAdi;
 
             analizRaporu += `${totalSinav} deneme sınavının sonuçlarına baktığımda genel ortalama netin ${statsOrta.toFixed(1)} civarında. `;
 
@@ -124,13 +124,13 @@ export function KarnelerPage({ currentUser, onBack }: KarnelerPageProps) {
             enZayifKonular,
             analizRaporu
         };
-    }, []);
+    }, [karnelerData]);
 
     const chartData = useMemo(() => {
         return karnelerData.map(karne => {
             const totalNet = karne.dersler.reduce((acc, d) => acc + d.net, 0);
             // Sınav adını daha kısa göstermek için formatla
-            const kisaAd = karne.sinavAdi.replace(/^.*?Sınav Karnesi\s*-\s*/i, '').trim() || karne.sinavAdi;
+            const kisaAd = karne.sinavAdi.replace(/^.*?S[ıiIİ]nav Karnesi.*?-\s*/i, '').trim() || karne.sinavAdi;
             return {
                 name: kisaAd,
                 tarih: (karne as any).tarih || 'Tarih Yok',
@@ -138,9 +138,45 @@ export function KarnelerPage({ currentUser, onBack }: KarnelerPageProps) {
                 puan: (karne as any).puan || null
             };
         });
-    }, []);
+    }, [karnelerData]);
 
     const selectedKarne = karnelerData.find(k => k.sinavAdi === selectedSinav);
+
+    const tekilSinavAnalizi = useMemo(() => {
+        if (!selectedKarne) return "";
+        let metin = "";
+        const toplamNet = selectedKarne.dersler.reduce((acc, d) => acc + d.net, 0);
+        const kisaAd = selectedKarne.sinavAdi.replace(/^.*?S[ıiIİ]nav Karnesi.*?-\s*/i, '').trim() || selectedKarne.sinavAdi;
+        const puan = (selectedKarne as any).puan ? Number((selectedKarne as any).puan).toFixed(2) : 'Belirtilmedi';
+        
+        metin += `Geçmiş olsun! "${kisaAd}" sınavına ait verilere baktığımda, toplamda ${toplamNet.toFixed(1)} net ve ${puan} puanlık bir başarı yakaladığını görüyorum. `;
+        
+        const siraliDersler = [...selectedKarne.dersler].sort((a, b) => (b.net / b.soruSayisi) - (a.net / a.soruSayisi));
+        const yildizDersler = siraliDersler.filter(d => (d.net / d.soruSayisi) >= 0.75);
+        const zayifDersler = siraliDersler.filter(d => (d.net / d.soruSayisi) <= 0.40);
+        
+        if (yildizDersler.length > 0) {
+            metin += `Özellikle ${yildizDersler.map(d => d.ders).join(', ')} kısmında harikalar yaratmışsın, bu branşlardaki başarın şahane. ✨ `;
+        }
+        
+        const iyiKonular = (selectedKarne.konular || []).filter(k => k.basariYuzdesi >= 80).map(k => k.konu);
+        const zayifKonular = (selectedKarne.konular || []).filter(k => k.basariYuzdesi <= 40).map(k => k.konu);
+        
+        if (iyiKonular.length > 0) {
+            metin += `Konu detaylarına girersek; ${iyiKonular.slice(0, 3).join(', ')} gibi testlerde adeta yıldızlaşıyorsun. `;
+        }
+        
+        if (zayifDersler.length > 0) {
+            metin += `Ancak ${zayifDersler.map(d => d.ders).join(', ')} derslerinde bir miktar net kaybın söz konusu. Puanını zirveye çekmek için buradaki temellere geri dönmek faydalı olabilir. `;
+        }
+        
+        if (zayifKonular.length > 0) {
+            metin += `Önümüzdeki günlerde bilhassa ${zayifKonular.slice(0, 3).join(', ')} konularına küçük bir tekrar molası vermek eksiğini kapatmana yardımcı olacaktır. `;
+        }
+        
+        metin += "Şu anki çaban gelecek hedefler için harika bir referans, üstüne katarak devam edeceğinden hiç şüphem yok! 🚀";
+        return metin;
+    }, [selectedKarne]);
 
     return (
         <div className="min-h-screen p-6 flex flex-col items-center bg-slate-950 text-white relative">
@@ -171,7 +207,7 @@ export function KarnelerPage({ currentUser, onBack }: KarnelerPageProps) {
                                         }`}
                                 >
                                     <div className="font-semibold text-sm truncate" title={karne.sinavAdi}>
-                                        {karne.sinavAdi.replace(/^.*?Sınav Karnesi\s*-\s*/i, '').trim() || karne.sinavAdi}
+                                        {karne.sinavAdi.replace(/^.*?S[ıiIİ]nav Karnesi.*?-\s*/i, '').trim() || karne.sinavAdi}
                                     </div>
                                     {(karne as any).tarih && (
                                         <div className={`text-xs mt-1 ${selectedSinav === karne.sinavAdi ? 'text-blue-100' : 'text-slate-400'}`}>
@@ -358,6 +394,18 @@ export function KarnelerPage({ currentUser, onBack }: KarnelerPageProps) {
                                 >
                                     <PieChart className="w-4 h-4" /> Genel Analize Dön
                                 </Button>
+                            </div>
+
+                            {/* Akıllı Analiz for Selected Karne */}
+                            <div className="bg-indigo-900/40 p-6 rounded-xl border border-indigo-700/50 mb-8 relative overflow-hidden">
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
+                                <h3 className="text-xl font-bold text-indigo-300 mb-3 flex items-center gap-2">
+                                    <Star className="w-5 h-5 text-fenerbahce-yellow" />
+                                    Bu Sınava Özel Analiz
+                                </h3>
+                                <p className="text-slate-300 leading-relaxed text-lg italic">
+                                    {tekilSinavAnalizi}
+                                </p>
                             </div>
 
                             <h3 className="text-lg font-semibold text-gray-300 mb-4">Ders Bazlı Netler</h3>
