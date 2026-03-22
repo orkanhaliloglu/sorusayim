@@ -31,6 +31,7 @@ export const USERS: User[] = [
 export const SUBJECTS: Subject[] = [
     // Ortaokul Dersleri
     { id: 'tr-orta', name: 'Türkçe', role: 'ortaokul' },
+    { id: 'tr-para-orta', name: 'Türkçe Paragraf', role: 'ortaokul' },
     { id: 'mat-orta', name: 'Matematik', role: 'ortaokul' },
     { id: 'fen', name: 'Fen Bilimleri', role: 'ortaokul' },
     { id: 'sos', name: 'Sosyal Bilgiler', role: 'ortaokul' },
@@ -39,6 +40,7 @@ export const SUBJECTS: Subject[] = [
 
     // Lise Dersleri
     { id: 'edb', name: 'Edebiyat', role: 'lise' },
+    { id: 'tr-para-lise', name: 'Türkçe Paragraf', role: 'lise' },
     { id: 'mat-lise', name: 'Matematik', role: 'lise' },
     { id: 'fiz', name: 'Fizik', role: 'lise' },
     { id: 'kim', name: 'Kimya', role: 'lise' },
