@@ -25,6 +25,36 @@ interface DayPlan {
     priority: 'high' | 'medium' | 'low';
 }
 
+// Konu - Ders Eşleştirme Sözlüğü (LGS Odaklı)
+const TOPIC_TO_SUBJECT: Record<string, string> = {
+    // Fen Bilimleri
+    'hücre': 'Fen Bilimleri', 'mayoz': 'Fen Bilimleri', 'mitoz': 'Fen Bilimleri', 'enerji': 'Fen Bilimleri',
+    'kütle': 'Fen Bilimleri', 'ağırlık': 'Fen Bilimleri', 'saf maddeler': 'Fen Bilimleri', 'karışımlar': 'Fen Bilimleri',
+    'yıldızlar': 'Fen Bilimleri', 'galaksiler': 'Fen Bilimleri', 'uzay': 'Fen Bilimleri', 'iş ve enerji': 'Fen Bilimleri',
+    'aynalar': 'Fen Bilimleri', 'ışık': 'Fen Bilimleri',
+    // Matematik
+    'rasyonel': 'Matematik', 'tam sayılar': 'Matematik', 'cebirsel': 'Matematik', 'eşitlik': 'Matematik',
+    'denklem': 'Matematik', 'oran': 'Matematik', 'orantı': 'Matematik', 'yüzdeler': 'Matematik',
+    'veri analizi': 'Matematik', 'çarpanlar': 'Matematik', 'üslü': 'Matematik', 'kareköklü': 'Matematik',
+    // Türkçe
+    'fiiller': 'Türkçe', 'ek-fiil': 'Türkçe', 'zarflar': 'Türkçe', 'cümlenin ögeleri': 'Türkçe',
+    'noktalama': 'Türkçe', 'yazım kuralları': 'Türkçe', 'anlatım bozukluğu': 'Türkçe', 'paragraf': 'Türkçe',
+    // Sosyal / İnkılap
+    'göç': 'Türkçe', 'nüfus': 'Türkçe', 'iletişim': 'Türkçe', 'ekonomi': 'Türkçe', 'demokrasi': 'Türkçe',
+    'büyük bir yolculuk': 'Sosyal Bilgiler', 'ülkemizin nüfus özellikleri': 'Sosyal Bilgiler',
+    // Din
+    'melek': 'Din Kültürü', 'ahiret': 'Din Kültürü', 'hz. ismail': 'Din Kültürü', 'hz. salih': 'Din Kültürü',
+    'kader': 'Din Kültürü', 'zekat': 'Din Kültürü', 'hac': 'Din Kültürü'
+};
+
+function inferSubject(topic: string): string {
+    const t = topic.toLowerCase();
+    for (const [key, subject] of Object.entries(TOPIC_TO_SUBJECT)) {
+        if (t.includes(key)) return subject;
+    }
+    return 'Diğer';
+}
+
 export function StratejiPage({ currentUser: _, onBack }: StratejiPageProps) {
     const [planType, setPlanType] = useState<'weakness' | 'balanced'>('weakness');
 
@@ -34,7 +64,14 @@ export function StratejiPage({ currentUser: _, onBack }: StratejiPageProps) {
 
         const subjectStats: Record<string, { totalNet: number, count: number, lastNet: number, soruSayisi: number }> = {};
         const lastExam = karnelerData[karnelerData.length - 1];
-        const topicWeaknesses: { konu: string, basari: number }[] = [];
+        const topicWeaknessesBySubject: Record<string, string[]> = {
+            'Matematik': [],
+            'Fen Bilimleri': [],
+            'Türkçe': [],
+            'Sosyal Bilgiler': [],
+            'İngilizce': [],
+            'Din Kültürü': []
+        };
 
         karnelerData.forEach((karne, idx) => {
             const isLast = idx === karnelerData.length - 1;
@@ -50,14 +87,18 @@ export function StratejiPage({ currentUser: _, onBack }: StratejiPageProps) {
 
             if (isLast) {
                 karne.konular.forEach(konu => {
-                    // basariYuzdesi bazen net (örn: 9.67/20) bazen yüzde (örn: 33.33) olarak geliyor
                     let realPercent = konu.basariYuzdesi;
                     if (konu.basariYuzdesi <= konu.soruSayisi && konu.soruSayisi > 5) {
                         realPercent = (konu.basariYuzdesi / konu.soruSayisi) * 100;
                     }
 
-                    if (realPercent < 60) {
-                        topicWeaknesses.push({ konu: konu.konu, basari: realPercent });
+                    if (realPercent < 65) {
+                        const subject = inferSubject(konu.konu);
+                        if (topicWeaknessesBySubject[subject]) {
+                            topicWeaknessesBySubject[subject].push(konu.konu);
+                        } else if (subject !== 'Diğer') {
+                            topicWeaknessesBySubject[subject] = [konu.konu];
+                        }
                     }
                 });
             }
@@ -76,117 +117,112 @@ export function StratejiPage({ currentUser: _, onBack }: StratejiPageProps) {
             };
         });
 
-        // En zayıf dersler
         const sortedWeakSubjects = [...averages].sort((a, b) => a.successRate - b.successRate);
-        const criticalSubjects = sortedWeakSubjects.filter(s => s.successRate < 65).slice(0, 3);
+        const criticalSubjects = sortedWeakSubjects.filter(s => s.successRate < 70).slice(0, 3);
         
-        // AI Tavsiyesi Oluşturma
         const sonSinavKisaAd = lastExam.sinavAdi.replace(/^.*?S[ıiIİ]nav Karnesi.*?-\s*/i, '').trim() || lastExam.sinavAdi;
         const toplamNet = lastExam.dersler.reduce((acc, d) => acc + d.net, 0);
         
-        let aiAdvice = `Kıvanç, son girdiğin "${sonSinavKisaAd}" sınavında toplam ${toplamNet.toFixed(1)} net yaparak gayretini gösterdin. `;
+        let aiAdvice = `Kıvanç, son girdiğin "${sonSinavKisaAd}" sınavına göre zayıf halkaları belirledim. `;
         
         if (criticalSubjects.length > 0) {
             const mainWeak = criticalSubjects[0];
-            aiAdvice += `Özellikle ${mainWeak.name} dersinde biraz zorlanmış görünüyorsun (${mainWeak.last} net). `;
-            if (topicWeaknesses.length > 0) {
-                aiAdvice += `Buna ek olarak ${topicWeaknesses.slice(0, 2).map(t => t.konu).join(' ve ')} konularına bir göz atmak netlerini hızla 400 puan üzerine taşıyacaktır. `;
-            }
-        } else {
-            aiAdvice += "Genel durumun çok dengeli ve başarılı. Mevcut temponu koruyarak hedeflerine emin adımlarla ilerliyorsun! ";
+            aiAdvice += `Özellikle ${mainWeak.name} dersinde (${mainWeak.last} net) ve ${topicWeaknessesBySubject[mainWeak.name]?.slice(0, 2).join(', ') || 'bazı temel'} konularında desteğe ihtiyacın var. `;
         }
         
-        aiAdvice += "Unutma, her yanlış bir öğrenme fırsatıdır. Pes etme, şampiyon sensin! 🚀";
+        aiAdvice += "Yeni programına bu konuları 'Kritik Görev' olarak ekledim. Pes etmek yok! 🚀";
 
-        return { averages, topicWeaknesses, criticalSubjects, lastExamName: sonSinavKisaAd, aiAdvice };
+        return { averages, topicWeaknessesBySubject, criticalSubjects, lastExamName: sonSinavKisaAd, aiAdvice };
     }, []);
 
     // Program Oluşturucu
     const weeklyPlan = useMemo((): DayPlan[] => {
         if (!analysis) return [];
         
-        const { topicWeaknesses, criticalSubjects } = analysis;
+        const { topicWeaknessesBySubject, criticalSubjects } = analysis;
         const weakSubjectNames = criticalSubjects.map(s => s.name);
         
-        const getPriority = (subjects: string[]) => {
-            return subjects.some(s => weakSubjectNames.includes(s)) ? 'high' : 'medium';
+        const getPriority = (subjects: string[]) => subjects.some(s => weakSubjectNames.includes(s)) ? 'high' : 'medium';
+        
+        const getTopicTasks = (subject: string, limit = 2) => {
+            const topics = topicWeaknessesBySubject[subject] || [];
+            return topics.slice(0, limit).map(t => `${t} (Konu Analizi + 15 Soru)`);
         };
 
         const schedule: DayPlan[] = [
             {
                 day: 'Pazartesi',
-                focus: weakSubjectNames.includes('Fen Bilimleri') || weakSubjectNames.includes('Matematik') ? 'Sayısal Odaklı Tekrar' : 'Fen Bilimleri & Paragraf',
-                priority: getPriority(['Fen Bilimleri', 'Matematik']),
+                focus: 'Fen Bilimleri & Paragraf',
+                priority: getPriority(['Fen Bilimleri']),
                 tasks: [
-                    '20 sayfa kitap okuma',
                     '20 soru Paragraf (Süre tutarak)',
-                    ...topicWeaknesses.filter(t => t.konu.toLowerCase().includes('mayoz') || t.konu.toLowerCase().includes('hücre')).map(t => `${t.konu} konu özeti çıkar`),
-                    weakSubjectNames.includes('Fen Bilimleri') ? '40 soru Fen Bilimleri (Yanlış analizi ile)' : '25 soru Fen Bilimleri testi'
+                    ...getTopicTasks('Fen Bilimleri', 3),
+                    weakSubjectNames.includes('Fen Bilimleri') ? 'Fen: Yanlış yapılan soruların video çözümleri' : '20 sayfa kitap okuma'
                 ]
             },
             {
                 day: 'Salı',
                 focus: 'Matematik & İngilizce',
-                priority: getPriority(['Matematik', 'İngilizce']),
+                priority: getPriority(['Matematik']),
                 tasks: [
-                    weakSubjectNames.includes('Matematik') ? '30 soru Matematik (Zorlanılan konular)' : '15 soru Matematik (Yeni nesil)',
-                    'Matematik: Son sınavdaki boş soruların çözümü',
-                    '15 soru İngilizce kelime çalışması',
-                    topicWeaknesses.some(t => t.konu.toLowerCase().includes('fiil')) ? 'Türkçe: Fiiller konusu hızlı tekrar' : 'Okuma pratiği'
+                    ...getTopicTasks('Matematik', 2),
+                    'Matematik: Boş soruların (NFT-4) tekrar çözülmesi',
+                    'İngilizce: Haftalık kelime listesi (NFT-4 hatalı kelimeler)',
+                    '15 soru İngilizce reading pratiği'
                 ]
             },
             {
                 day: 'Çarşamba',
-                focus: weakSubjectNames.includes('Sosyal Bilgiler') || weakSubjectNames.includes('Türkçe') ? 'Sözel Güçlendirme' : 'Türkçe & Sosyal',
-                priority: getPriority(['Sosyal Bilgiler', 'Türkçe']),
+                focus: 'Türkçe & Sosyal',
+                priority: getPriority(['Türkçe', 'Sosyal Bilgiler']),
                 tasks: [
-                    '20 soru Türkçe Paragraf',
-                    weakSubjectNames.includes('Sosyal Bilgiler') ? 'Sosyal Bilgiler: 30 soru + Konu tekrarı' : '15 soru Sosyal Bilgiler',
-                    'Din Kültürü: 10 soru genel tekrar',
-                    'Haftalık genel kelime listesi kontrolü'
+                    ...getTopicTasks('Türkçe', 2),
+                    ...getTopicTasks('Sosyal Bilgiler', 2),
+                    '20 soru Türkçe Dil Bilgisi',
+                    'Sosyal: 1 ünite hızlı kavram tekrarı'
                 ]
             },
             {
                 day: 'Perşembe',
-                focus: 'Sayısal Yoğunluk (Eksik Kapatma)',
+                focus: 'Sayısal Yoğunluk',
                 priority: 'high',
                 tasks: [
-                    'Math & Fen: En çok yanlış yapılan 2\'şer konudan 20\'şer soru',
-                    'Video çözümleri izleyerek hata analizi',
-                    '10 sayfa kitap okuma',
-                    'Hızlı formül ve kural tekrarı'
+                    'Matematik: En zayıf konudan (Rasyonel/Cebirsel) 30 soru',
+                    'Fen: Zorlanılan konulardan 20 soru',
+                    'Hata Defteri: Haftanın yanlışlarının kontrolü',
+                    '15 sayfa kitap okuma'
                 ]
             },
             {
                 day: 'Cuma',
-                focus: 'Genel Değerlendirme',
-                priority: 'medium',
+                focus: 'Sözel & Din Kültürü',
+                priority: getPriority(['Din Kültürü']),
                 tasks: [
-                    'İngilizce: 20 soru deneme tadında test',
-                    'Hafta içi çözülemeyen soruların tekrarı',
-                    'Türkçe Dil Bilgisi: 15 soru',
-                    'Haftalık başarı takibi (SoruSayım Dashboard)'
+                    ...getTopicTasks('Din Kültürü', 2),
+                    'İngilizce: 20 soru genel deneme',
+                    'Din: Kavram sözlüğü çalışması',
+                    'Türkçe: Sözel Mantık 10 soru'
                 ]
             },
             {
                 day: 'Cumartesi',
-                focus: 'Simülasyon Günü',
+                focus: 'Deneme & Analiz',
                 priority: 'high',
                 tasks: [
-                    'Tam kapsamlı LGS denemesi (Sözel 75 dk, Sayısal 80 dk)',
-                    'Deneme sonrası detaylı analiz (Yanlış - Boş kontrolü)',
-                    'Puan hesaplama ve hedef karşılaştırma'
+                    'Tam kapsamlı LGS denemesi (Zamana karşı)',
+                    'Deneme sonrası yanlışların nedenlerinin belirlenmesi',
+                    'Eksik kalan okul ödevlerinin tamamlanması'
                 ]
             },
             {
                 day: 'Pazar',
-                focus: 'Gelecek Stratejisi & Dinlenme',
+                focus: 'Strateji & Dinlenme',
                 priority: 'low',
                 tasks: [
-                    'Haftalık performans değerlendirmesi',
-                    'Eksik kalan konulardan mini test (10 soru)',
-                    'Kitap okuma ve hobi zamanı',
-                    'Yeni hafta programının gözden geçirilmesi'
+                    'Gelecek hafta hedeflerinin belirlenmesi',
+                    'Zihin boşaltma: Spor veya Hobi zamanı',
+                    '10 sayfa kitap okuma',
+                    'SoruSayım Dashboard kontrolü'
                 ]
             }
         ];
@@ -198,20 +234,18 @@ export function StratejiPage({ currentUser: _, onBack }: StratejiPageProps) {
 
     return (
         <div className="min-h-screen p-6 bg-slate-950 text-white relative">
-            {/* Background Decorative Elements */}
             <div className="fixed inset-0 pointer-events-none overflow-hidden">
                 <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-[120px]"></div>
                 <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[120px]"></div>
             </div>
 
-            {/* Header */}
             <div className="w-full max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between mb-12 z-10 relative">
                 <div className="flex items-center gap-4 mb-4 md:mb-0">
                     <Button variant="outline" onClick={onBack} size="sm" className="bg-slate-900 border-slate-700">
                         <ArrowLeft className="w-4 h-4 mr-2" /> Geri Dön
                     </Button>
                     <h1 className="text-3xl font-display text-amber-400 flex items-center gap-3">
-                        <Brain className="w-8 h-8" /> Strateji ve Planlama Merkezi
+                        <Brain className="w-8 h-8" /> Strateji Merkezi
                     </h1>
                 </div>
                 <div className="flex bg-slate-900 p-1 rounded-xl border border-slate-800">
@@ -231,8 +265,6 @@ export function StratejiPage({ currentUser: _, onBack }: StratejiPageProps) {
             </div>
 
             <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8 z-10 relative">
-                
-                {/* Left Panel: Analysis Summary */}
                 <div className="lg:col-span-1 space-y-6">
                     <div className="bg-slate-900/80 backdrop-blur-md p-6 rounded-2xl border border-slate-800 shadow-xl">
                         <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-blue-400">
@@ -258,26 +290,10 @@ export function StratejiPage({ currentUser: _, onBack }: StratejiPageProps) {
                         </div>
                     </div>
 
-                    <div className="bg-red-900/20 backdrop-blur-md p-6 rounded-2xl border border-red-500/30 shadow-xl">
-                        <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-red-400">
-                            <AlertCircle className="w-5 h-5" /> Kritik Konular
-                        </h3>
-                        <div className="flex flex-wrap gap-2">
-                            {analysis.topicWeaknesses.map((item, i) => (
-                                <span key={i} className="px-3 py-1 bg-red-500/20 text-red-300 text-xs rounded-full border border-red-500/30">
-                                    {item.konu}
-                                </span>
-                            ))}
-                            {analysis.topicWeaknesses.length === 0 && (
-                                <p className="text-sm text-slate-400 italic">Harikasın! Kritik bir eksik bulunamadı.</p>
-                            )}
-                        </div>
-                    </div>
-
-                    <div className="bg-blue-600/10 p-6 rounded-2xl border border-blue-500/30">
-                        <div className="flex items-center gap-3 mb-2">
+                    <div className="bg-red-900/20 backdrop-blur-md p-6 rounded-2xl border border-red-500/30 shadow-xl text-center">
+                        <div className="flex items-center gap-3 mb-2 justify-center">
                             <Zap className="text-amber-400 w-6 h-6 animate-pulse" />
-                            <span className="font-bold text-blue-200">AI Tavsiyesi</span>
+                            <span className="font-bold text-blue-200 uppercase tracking-tighter">AI Tavsiyesi</span>
                         </div>
                         <p className="text-sm text-slate-300 italic leading-relaxed">
                             "{analysis.aiAdvice}"
@@ -285,15 +301,14 @@ export function StratejiPage({ currentUser: _, onBack }: StratejiPageProps) {
                     </div>
                 </div>
 
-                {/* Right Panel: Study Schedule */}
                 <div className="lg:col-span-3 space-y-6">
                     <div className="bg-slate-900/50 backdrop-blur-md p-6 rounded-2xl border border-slate-800 shadow-xl">
                         <div className="flex items-center justify-between mb-8">
                             <h2 className="text-2xl font-bold flex items-center gap-3">
-                                <Calendar className="text-amber-500" /> Günlük Çalışma Programı (LGS Hazırlık)
+                                <Calendar className="text-amber-500" /> Günlük Çalışma Programı
                             </h2>
-                            <div className="text-sm text-slate-400 flex items-center gap-2">
-                                <CheckCircle2 className="w-4 h-4 text-green-500" /> "{analysis.lastExamName}" Analizi ile Güncellendi
+                            <div className="hidden md:flex text-sm text-slate-400 items-center gap-2">
+                                <CheckCircle2 className="w-4 h-4 text-green-500" /> "{analysis.lastExamName}" Baz Alındı
                             </div>
                         </div>
 
@@ -301,7 +316,7 @@ export function StratejiPage({ currentUser: _, onBack }: StratejiPageProps) {
                             {weeklyPlan.map((day, idx) => (
                                 <div 
                                     key={idx} 
-                                    className={`group p-5 rounded-2xl border transition-all duration-300 hover:scale-[1.02] ${
+                                    className={`group p-5 rounded-2xl border transition-all duration-300 hover:scale-[1.01] ${
                                         day.priority === 'high' 
                                             ? 'bg-gradient-to-br from-slate-800 to-amber-900/20 border-amber-500/30 shadow-[0_0_15px_rgba(245,158,11,0.05)]' 
                                             : 'bg-slate-800/50 border-slate-700'
@@ -310,17 +325,17 @@ export function StratejiPage({ currentUser: _, onBack }: StratejiPageProps) {
                                     <div className="flex justify-between items-start mb-4">
                                         <div>
                                             <h4 className="text-sm font-bold text-amber-500 uppercase tracking-widest">{day.day}</h4>
-                                            <h3 className="text-xl font-bold">{day.focus}</h3>
+                                            <h3 className="text-lg font-bold">{day.focus}</h3>
                                         </div>
                                         {day.priority === 'high' && (
-                                            <span className="px-2 py-1 bg-red-600 text-[10px] font-black rounded uppercase">Kritik</span>
+                                            <span className="px-2 py-0.5 bg-red-600 text-[10px] font-black rounded uppercase">Kritik</span>
                                         )}
                                     </div>
-                                    <ul className="space-y-3">
+                                    <ul className="space-y-2.5">
                                         {day.tasks.map((task, i) => (
                                             <li key={i} className="flex items-start gap-3 text-sm text-slate-300 group-hover:text-white transition-colors">
                                                 <div className="mt-1 w-4 h-4 rounded-full border border-slate-600 flex items-center justify-center flex-shrink-0 group-hover:border-amber-400">
-                                                    <div className="w-1.5 h-1.5 rounded-full bg-slate-600 group-hover:bg-amber-400"></div>
+                                                    <div className="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-amber-400"></div>
                                                 </div>
                                                 {task}
                                             </li>
@@ -329,24 +344,8 @@ export function StratejiPage({ currentUser: _, onBack }: StratejiPageProps) {
                                 </div>
                             ))}
                         </div>
-                        
-                        <div className="mt-8 p-6 bg-slate-950/50 rounded-2xl border border-slate-800 flex flex-col md:flex-row items-center justify-between gap-6">
-                            <div className="flex items-center gap-4">
-                                <div className="p-3 bg-blue-600/20 rounded-full">
-                                    <BookOpen className="text-blue-400 w-6 h-6" />
-                                </div>
-                                <div>
-                                    <h4 className="font-bold">Programı PDF Olarak Al</h4>
-                                    <p className="text-xs text-slate-400">Çalışma masana asmak için çıktı alabilirsin.</p>
-                                </div>
-                            </div>
-                            <Button className="bg-blue-600 hover:bg-blue-500">
-                                Dosyayı İndir
-                            </Button>
-                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
     );
