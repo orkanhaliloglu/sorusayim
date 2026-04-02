@@ -139,33 +139,42 @@ export function StratejiPage({ currentUser: _, onBack }: StratejiPageProps) {
         const { topicWeaknessesBySubject, criticalSubjects } = analysis;
         const weakSubjectNames = criticalSubjects.map(s => s.name);
         
-        const getPriority = (subjects: string[]) => subjects.some(s => weakSubjectNames.includes(s)) ? 'high' : 'medium';
+        const isWeaknessMode = planType === 'weakness';
+        
+        const getPriority = (subjects: string[]) => {
+            const hasCritical = subjects.some(s => weakSubjectNames.includes(s));
+            return (hasCritical && isWeaknessMode) ? 'high' : (hasCritical ? 'medium' : 'low');
+        };
         
         const getTopicTasks = (subject: string, limit = 2) => {
             const topics = topicWeaknessesBySubject[subject] || [];
-            return topics.slice(0, limit).map(t => `${t} (Konu Analizi + 15 Soru)`);
+            if (topics.length === 0) return [`${subject}: Genel Soru Çözümü (20 Soru)`];
+            
+            // Dengeli modda daha az konu detayı, eksik odaklıda daha çok
+            const actualLimit = isWeaknessMode ? limit : Math.max(1, limit - 1);
+            return topics.slice(0, actualLimit).map(t => `${t} (Hata Analizi + 15 Soru)`);
         };
 
         const schedule: DayPlan[] = [
             {
                 day: 'Pazartesi',
-                focus: 'Fen Bilimleri & Paragraf',
+                focus: isWeaknessMode ? 'Fen Bilimleri (Ağırlıklı)' : 'Fen & Paragraf',
                 priority: getPriority(['Fen Bilimleri']),
                 tasks: [
                     '20 soru Paragraf (Süre tutarak)',
                     ...getTopicTasks('Fen Bilimleri', 3),
-                    weakSubjectNames.includes('Fen Bilimleri') ? 'Fen: Yanlış yapılan soruların video çözümleri' : '20 sayfa kitap okuma'
+                    isWeaknessMode ? 'Fen: Yanlış yapılan soruların video çözümleri (NFT-4)' : 'Fen: 1 test genel tekrar'
                 ]
             },
             {
                 day: 'Salı',
-                focus: 'Matematik & İngilizce',
+                focus: isWeaknessMode ? 'Matematik Focus' : 'Matematik & İngilizce',
                 priority: getPriority(['Matematik']),
                 tasks: [
-                    ...getTopicTasks('Matematik', 2),
-                    'Matematik: Boş soruların (NFT-4) tekrar çözülmesi',
-                    'İngilizce: Haftalık kelime listesi (NFT-4 hatalı kelimeler)',
-                    '15 soru İngilizce reading pratiği'
+                    ...getTopicTasks('Matematik', isWeaknessMode ? 3 : 1),
+                    'Matematik: Boş soruların (NFT-4) tekrarı',
+                    isWeaknessMode ? 'Matematik: Zorluk seviyesi yüksek 10 soru' : 'İngilizce: Kelime kartı çalışması (15 dk)',
+                    !isWeaknessMode ? '15 soru İngilizce reading pratiği' : 'Matematik: Formül kağıdı hazırlama'
                 ]
             },
             {
@@ -174,58 +183,59 @@ export function StratejiPage({ currentUser: _, onBack }: StratejiPageProps) {
                 priority: getPriority(['Türkçe', 'Sosyal Bilgiler']),
                 tasks: [
                     ...getTopicTasks('Türkçe', 2),
-                    ...getTopicTasks('Sosyal Bilgiler', 2),
+                    ...getTopicTasks('Sosyal Bilgiler', isWeaknessMode ? 2 : 1),
                     '20 soru Türkçe Dil Bilgisi',
-                    'Sosyal: 1 ünite hızlı kavram tekrarı'
+                    isWeaknessMode ? 'Sosyal: Eksik konuların (Göç vb.) özeti' : 'Kitap okuma (20 sayfa)'
                 ]
             },
             {
                 day: 'Perşembe',
-                focus: 'Sayısal Yoğunluk',
-                priority: 'high',
+                focus: isWeaknessMode ? 'Sayısal Kampı' : 'Sayısal & Sözel Karma',
+                priority: isWeaknessMode ? 'high' : 'medium',
                 tasks: [
-                    'Matematik: En zayıf konudan (Rasyonel/Cebirsel) 30 soru',
-                    'Fen: Zorlanılan konulardan 20 soru',
-                    'Hata Defteri: Haftanın yanlışlarının kontrolü',
+                    'Matematik: Zayıf konulardan karma 25 soru',
+                    'Fen: En çok hata yapılan konudan 20 soru',
+                    isWeaknessMode ? 'Branş Denemesi: Matematik' : 'Türkçe: 15 soru Anlam Bilgisi',
                     '15 sayfa kitap okuma'
                 ]
             },
             {
                 day: 'Cuma',
-                focus: 'Sözel & Din Kültürü',
+                focus: 'Haftalık Kapanış & Din',
                 priority: getPriority(['Din Kültürü']),
                 tasks: [
                     ...getTopicTasks('Din Kültürü', 2),
                     'İngilizce: 20 soru genel deneme',
-                    'Din: Kavram sözlüğü çalışması',
+                    isWeaknessMode ? 'Haftanın tüm yanlış sorularının tekrar çözümü' : 'Din: Peygamber hayatları okuması',
                     'Türkçe: Sözel Mantık 10 soru'
                 ]
             },
             {
                 day: 'Cumartesi',
-                focus: 'Deneme & Analiz',
+                focus: 'Deneme Günü',
                 priority: 'high',
                 tasks: [
                     'Tam kapsamlı LGS denemesi (Zamana karşı)',
-                    'Deneme sonrası yanlışların nedenlerinin belirlenmesi',
-                    'Eksik kalan okul ödevlerinin tamamlanması'
+                    'Deneme analizi (Yanlış ve Boş tespiti)',
+                    'Eksik okul ödevleri',
+                    isWeaknessMode ? 'Matematik: Denemedeki hatalı 3 konudan 5\'er soru' : 'Haftalık değerlendirme'
                 ]
             },
             {
                 day: 'Pazar',
-                focus: 'Strateji & Dinlenme',
+                focus: 'Dinlenme & Planlama',
                 priority: 'low',
                 tasks: [
                     'Gelecek hafta hedeflerinin belirlenmesi',
-                    'Zihin boşaltma: Spor veya Hobi zamanı',
-                    '10 sayfa kitap okuma',
-                    'SoruSayım Dashboard kontrolü'
+                    'Zihin boşaltma: Spor veya Hobi',
+                    'Hafif okumalar',
+                    'Ailesel aktivite zamanı'
                 ]
             }
         ];
 
         return schedule;
-    }, [analysis]);
+    }, [analysis, planType]);
 
     if (!analysis) return null;
 
