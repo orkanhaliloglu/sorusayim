@@ -14,9 +14,10 @@ interface DashboardProps {
     currentUser: User;
     onLogout: () => void;
     onNavigateToKarneler: () => void;
+    onNavigateToStrateji: () => void;
 }
 
-export function Dashboard({ currentUser, onLogout, onNavigateToKarneler }: DashboardProps) {
+export function Dashboard({ currentUser, onLogout, onNavigateToKarneler, onNavigateToStrateji }: DashboardProps) {
     const [selectedSubject, setSelectedSubject] = useState('');
     const [questionCount, setQuestionCount] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -190,6 +191,9 @@ export function Dashboard({ currentUser, onLogout, onNavigateToKarneler }: Dashb
                 </div>
 
                 <div className="flex gap-4">
+                    <Button variant="outline" size="sm" onClick={onNavigateToStrateji} className="whitespace-nowrap bg-amber-500 hover:bg-amber-400 border-amber-300 text-slate-900 flex items-center gap-2 font-bold shadow-[0_0_15px_rgba(245,158,11,0.3)]">
+                        <Target className="w-4 h-4" /> Strateji Merkezi
+                    </Button>
                     <Button variant="outline" size="sm" onClick={onNavigateToKarneler} className="whitespace-nowrap bg-indigo-600 hover:bg-indigo-500 border-indigo-400 text-white flex items-center gap-2">
                         <Award className="w-4 h-4" /> Karneler
                     </Button>

@@ -6,6 +6,7 @@ import { USERS } from './data/constants';
 import { Dashboard } from './components/Dashboard';
 import { LoginPage } from './pages/LoginPage';
 import { KarnelerPage } from './pages/KarnelerPage';
+import { StratejiPage } from './pages/StratejiPage';
 import { Loader2 } from 'lucide-react';
 
 function App() {
@@ -46,13 +47,15 @@ function App() {
     };
   }, []);
 
-  const [currentView, setCurrentView] = useState<'dashboard' | 'karneler'>('dashboard');
+  const [currentView, setCurrentView] = useState<'dashboard' | 'karneler' | 'strateji'>('dashboard');
 
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '');
       if (hash === 'karneler') {
         setCurrentView('karneler');
+      } else if (hash === 'strateji') {
+        setCurrentView('strateji');
       } else {
         setCurrentView('dashboard');
       }
@@ -80,9 +83,21 @@ function App() {
 
   if (currentUser) {
     if (currentView === 'karneler') {
-      return <KarnelerPage currentUser={currentUser} onBack={() => { window.location.hash = 'dashboard'; }} />;
+      return <KarnelerPage 
+        currentUser={currentUser} 
+        onBack={() => { window.location.hash = 'dashboard'; }} 
+        onNavigateToStrateji={() => { window.location.hash = 'strateji'; }}
+      />;
     }
-    return <Dashboard currentUser={currentUser} onLogout={handleLogout} onNavigateToKarneler={() => { window.location.hash = 'karneler'; }} />;
+    if (currentView === 'strateji') {
+      return <StratejiPage currentUser={currentUser} onBack={() => { window.location.hash = 'dashboard'; }} />;
+    }
+    return <Dashboard 
+      currentUser={currentUser} 
+      onLogout={handleLogout} 
+      onNavigateToKarneler={() => { window.location.hash = 'karneler'; }} 
+      onNavigateToStrateji={() => { window.location.hash = 'strateji'; }}
+    />;
   }
 
   return <LoginPage />;

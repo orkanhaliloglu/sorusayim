@@ -1,16 +1,17 @@
 import { useState, useMemo } from 'react';
 import { type User } from '../types';
 import { Button } from '../components/ui/Button';
-import { ArrowLeft, BookOpen, Star, AlertTriangle, PieChart, TrendingUp } from 'lucide-react';
+import { ArrowLeft, BookOpen, Star, AlertTriangle, PieChart, TrendingUp, Target, Zap } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import karnelerData from '../data/karneler.json';
 
 interface KarnelerPageProps {
     currentUser: User;
     onBack: () => void;
+    onNavigateToStrateji: () => void;
 }
 
-export function KarnelerPage({ currentUser, onBack }: KarnelerPageProps) {
+export function KarnelerPage({ currentUser, onBack, onNavigateToStrateji }: KarnelerPageProps) {
     // Sadece Kıvanç'ın verileri var gibi görünüyor, yine de güvenli tarafta kalalım
     if (currentUser.id !== 'kivanc' && currentUser.id !== 'orkan' && currentUser.role !== 'admin') {
         return (
@@ -181,12 +182,15 @@ export function KarnelerPage({ currentUser, onBack }: KarnelerPageProps) {
     return (
         <div className="min-h-screen p-6 flex flex-col items-center bg-slate-950 text-white relative">
             {/* Header */}
-            <div className="w-full max-w-6xl flex items-center justify-between mb-8 z-10 relative">
-                <Button variant="outline" onClick={onBack} className="flex items-center gap-2">
-                    <ArrowLeft className="w-4 h-4" /> Dashboard'a Dön
-                </Button>
+                <div className="flex gap-3">
+                    <Button variant="outline" onClick={onNavigateToStrateji} className="flex items-center gap-2 bg-amber-500 hover:bg-amber-400 border-amber-300 text-slate-900 font-bold">
+                        <Target className="w-4 h-4" /> Strateji ve Program
+                    </Button>
+                    <Button variant="outline" onClick={onBack} className="flex items-center gap-2">
+                        <ArrowLeft className="w-4 h-4" /> Dashboard'a Dön
+                    </Button>
+                </div>
                 <h1 className="text-3xl font-display text-fenerbahce-yellow">Karne Analiz Merkezi</h1>
-            </div>
 
             <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-3 gap-8 z-10 relative">
 
@@ -266,6 +270,11 @@ export function KarnelerPage({ currentUser, onBack }: KarnelerPageProps) {
                                 <p className="text-slate-300 leading-relaxed text-lg italic">
                                     "{stats.analizRaporu}"
                                 </p>
+                                <div className="mt-6 flex justify-end">
+                                    <Button onClick={onNavigateToStrateji} className="bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold flex items-center gap-2">
+                                        <Zap className="w-4 h-4" /> Eksiklerini Kapatmak İçin Programa Git
+                                    </Button>
+                                </div>
                             </div>
 
                             {/* Güçlü ve Zayıf Konular */}

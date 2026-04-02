@@ -12,8 +12,6 @@ const config: CapacitorConfig = {
       "*.googleapis.com"
     ]
   },
-    ]
-  }
 };
 
 export default config;
