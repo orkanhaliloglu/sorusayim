@@ -5,11 +5,9 @@ import {
     ArrowLeft, 
     Calendar, 
     CheckCircle2, 
-    AlertCircle, 
     TrendingUp, 
     Zap,
-    Brain,
-    BookOpen
+    Brain
 } from 'lucide-react';
 import karnelerData from '../data/karneler.json';
 
@@ -121,7 +119,6 @@ export function StratejiPage({ currentUser: _, onBack }: StratejiPageProps) {
         const criticalSubjects = sortedWeakSubjects.filter(s => s.successRate < 70).slice(0, 3);
         
         const sonSinavKisaAd = lastExam.sinavAdi.replace(/^.*?S[ıiIİ]nav Karnesi.*?-\s*/i, '').trim() || lastExam.sinavAdi;
-        const toplamNet = lastExam.dersler.reduce((acc, d) => acc + d.net, 0);
         
         let aiAdvice = `Kıvanç, son girdiğin "${sonSinavKisaAd}" sınavına göre zayıf halkaları belirledim. `;
         
