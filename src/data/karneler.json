@@ -1200,5 +1200,40 @@
         "basariYuzdesi": 100.0
       }
     ]
+  },
+  {
+    "sinavAdi": "KIVANÇ UTKU HALİLOĞLU - Sınav Karnesi - 7.SINIF NFT-4",
+    "tarih": "02.04.2026",
+    "puan": 360.22,
+    "dersler": [
+      { "ders": "Türkçe", "soruSayisi": 20, "dogru": 16, "yanlis": 3, "bos": 1, "net": 15.00 },
+      { "ders": "Matematik", "soruSayisi": 20, "dogru": 12, "yanlis": 1, "bos": 7, "net": 11.67 },
+      { "ders": "Fen\tBilimleri", "soruSayisi": 20, "dogru": 7, "yanlis": 12, "bos": 1, "net": 3.00 },
+      { "ders": "Sosyal\tBilgiler", "soruSayisi": 10, "dogru": 8, "yanlis": 2, "bos": 0, "net": 7.33 },
+      { "ders": "İngilizce", "soruSayisi": 10, "dogru": 10, "yanlis": 0, "bos": 0, "net": 10.00 },
+      { "ders": "Din Kültürü", "soruSayisi": 10, "dogru": 7, "yanlis": 3, "bos": 0, "net": 6.00 }
+    ],
+    "konular": [
+      { "konu": "Matematik", "soruSayisi": 20, "dogru": 12, "yanlis": 1, "bos": 7, "basariYuzdesi": 11.67 },
+      { "konu": "İngilizce", "soruSayisi": 10, "dogru": 10, "yanlis": 0, "bos": 0, "basariYuzdesi": 10.00 },
+      { "konu": "Enerji Dönüşümleri", "soruSayisi": 1, "dogru": 0, "yanlis": 1, "bos": 0, "basariYuzdesi": 0.0 },
+      { "konu": "Galaksiler ve Evren", "soruSayisi": 1, "dogru": 0, "yanlis": 1, "bos": 0, "basariYuzdesi": 0.0 },
+      { "konu": "İş ve Enerji", "soruSayisi": 1, "dogru": 0, "yanlis": 1, "bos": 0, "basariYuzdesi": 0.0 },
+      { "konu": "Kütle ve Ağırlık", "soruSayisi": 1, "dogru": 0, "yanlis": 1, "bos": 0, "basariYuzdesi": 0.0 },
+      { "konu": "Maddenin Tanecikli Yapısı", "soruSayisi": 2, "dogru": 0, "yanlis": 2, "bos": 0, "basariYuzdesi": 0.0 },
+      { "konu": "Mayoz", "soruSayisi": 1, "dogru": 0, "yanlis": 1, "bos": 0, "basariYuzdesi": 0.0 },
+      { "konu": "Yıldızlar", "soruSayisi": 1, "dogru": 0, "yanlis": 1, "bos": 0, "basariYuzdesi": 0.0 },
+      { "konu": "Saf Maddeler", "soruSayisi": 3, "dogru": 1, "yanlis": 2, "bos": 0, "basariYuzdesi": 33.33 },
+      { "konu": "Rasyonel Sayılar", "soruSayisi": 2, "dogru": 0, "yanlis": 0, "bos": 2, "basariYuzdesi": 0.0 },
+      { "konu": "Eşitlik ve Denklem", "soruSayisi": 4, "dogru": 1, "yanlis": 3, "bos": 0, "basariYuzdesi": 25.0 },
+      { "konu": "Cebirsel İfadeler", "soruSayisi": 5, "dogru": 3, "yanlis": 2, "bos": 0, "basariYuzdesi": 60.0 },
+      { "konu": "Ek-Fiil", "soruSayisi": 2, "dogru": 1, "yanlis": 1, "bos": 0, "basariYuzdesi": 50.0 },
+      { "konu": "Fiiller", "soruSayisi": 2, "dogru": 1, "yanlis": 1, "bos": 0, "basariYuzdesi": 50.0 },
+      { "konu": "Büyük Bir Yolculuk (Göç)", "soruSayisi": 1, "dogru": 0, "yanlis": 1, "bos": 0, "basariYuzdesi": 0.0 },
+      { "konu": "Ülkemizin Nüfus Özellikleri", "soruSayisi": 4, "dogru": 3, "yanlis": 1, "bos": 0, "basariYuzdesi": 75.0 },
+      { "konu": "Hz. İsmail (as)", "soruSayisi": 1, "dogru": 0, "yanlis": 1, "bos": 0, "basariYuzdesi": 0.0 },
+      { "konu": "Dünya ve Ahiret Hayatı", "soruSayisi": 1, "dogru": 0, "yanlis": 1, "bos": 0, "basariYuzdesi": 0.0 },
+      { "konu": "Melek ve Ahiret İnancı", "soruSayisi": 1, "dogru": 0, "yanlis": 1, "bos": 0, "basariYuzdesi": 0.0 }
+    ]
   }
 ]
